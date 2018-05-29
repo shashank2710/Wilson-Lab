@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<pumpProbeStandardsSet>
+	<description>
+	705nm/747nm Primary melanoma Case1 macrophage standards set, with 817 probe
+	New kind of standard set directly from the extreme points of tissue images.
+	</description>
+
+	<pumpProbeStandard>
+		<name>705nm</name>	
+		<description>Data taken at 705nm pump wavelength</description>
+
+		<pumpWavelength>705</pumpWavelength>
+		<probeWavelength>817</probeWavelength>
+
+
+		<color_red>1.0</color_red>
+		<color_green>0.0</color_green>
+		<color_blue>0.0</color_blue>
+
+		<fileName>Case1macrophage705nm.mat</fileName>
+
+		<scale>1.0</scale>
+	</pumpProbeStandard>
+
+	<pumpProbeStandard>
+		<name>747nm</name>	
+		<description>Data taken at 747nm pump wavelength</description>
+
+		<pumpWavelength>747</pumpWavelength>
+		<probeWavelength>817</probeWavelength>
+
+
+		<color_red>0.0</color_red>
+		<color_green>1.0</color_green>
+		<color_blue>0.0</color_blue>
+
+		<fileName>Case1macrophage747nm.mat</fileName>
+
+		<scale>1.0</scale>
+	</pumpProbeStandard>
+
+</pumpProbeStandardsSet>

@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<pumpProbeStandardsSet>
+	<description>
+	EU/PHEO standards set.
+	Collected from representative heavy eumelanin and pheomelanin regions in Sample Set C.
+	</description>
+
+	<pumpProbeStandard>
+		<name>eumelanin</name>	
+		<description>From Set C case 11</description>
+
+		<pumpWavelength>720</pumpWavelength>
+		<probeWavelength>810</probeWavelength>
+
+
+		<color_red>1.0</color_red>
+		<color_green>0.0</color_green>
+		<color_blue>0.0</color_blue>
+
+		<fileName>setCcase11_11a3_FOV1_eumelanin.mat</fileName>
+
+		<scale>1.0</scale>
+	</pumpProbeStandard>
+
+	<pumpProbeStandard>
+		<name>pheomelanin</name>	
+		<description>From set C case 2 3a1</description>
+
+		<pumpWavelength>720</pumpWavelength>
+		<probeWavelength>810</probeWavelength>
+
+
+		<color_red>0.0</color_red>
+		<color_green>1.0</color_green>
+		<color_blue>0.0</color_blue>
+
+		<fileName>setCcase2_3a1_FOV2_pheomelanin.mat</fileName>
+
+		<scale>5.0</scale>
+	</pumpProbeStandard>
+
+</pumpProbeStandardsSet>

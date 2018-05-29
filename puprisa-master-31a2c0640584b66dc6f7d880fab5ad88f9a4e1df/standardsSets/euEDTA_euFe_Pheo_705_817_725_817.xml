@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<pumpProbeStandardsSet>
+	<description>
+	EU/PHEO/Hb standards set at combination of 705/817nm and
+	725/817nm pump/probe. Data recorded 2013-05-29 by MJS,
+	compiled 2013-06-05 JWW.
+
+	Four standards: eumelanin, both EDTA-washed and iron-loaded;
+	synthetic pheomelanin, and hemoglobin.
+	</description>
+
+	<pumpProbeStandard>
+		<name>eumelanin(EDTA)</name>	
+		<description>EDTA-washed eumelanin, dry powder on a slide</description>
+
+		<pumpWavelength>705,725</pumpWavelength>
+		<probeWavelength>817.817</probeWavelength>
+
+
+		<color_red>1.0</color_red>
+		<color_green>0.0</color_green>
+		<color_blue>0.0</color_blue>
+
+		<fileName>eumelaninEDTA_705_817_725_817.mat</fileName>
+
+		<scale>1.0</scale>
+	</pumpProbeStandard>
+
+	<pumpProbeStandard>
+		<name>eumelanin(Fe)</name>	
+		<description>Iron-loaded eumelanin, dry powder on a slide</description>
+
+		<pumpWavelength>705,725</pumpWavelength>
+		<probeWavelength>817.817</probeWavelength>
+
+
+		<color_red>0.0</color_red>
+		<color_green>0.0</color_green>
+		<color_blue>1.0</color_blue>
+
+		<fileName>eumelaninFe_705_817_725_817.mat</fileName>
+
+		<scale>1.0</scale>
+	</pumpProbeStandard>
+
+	<pumpProbeStandard>
+		<name>pheomelanin</name>	
+		<description>synthetic pheomelanin, dry powder on a slide</description>
+
+		<pumpWavelength>705,725</pumpWavelength>
+		<probeWavelength>817,817</probeWavelength>
+
+		<color_red>0.0</color_red>
+		<color_green>1.0</color_green>
+		<color_blue>0.0</color_blue>
+
+		<fileName>pheomelanin_705_817_725_817.mat</fileName>
+
+		<scale>1.0</scale>
+	</pumpProbeStandard>
+
+</pumpProbeStandardsSet>

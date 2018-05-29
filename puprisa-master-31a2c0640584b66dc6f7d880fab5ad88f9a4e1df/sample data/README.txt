@@ -1,0 +1,1 @@
+The sample data here were acquired in 2014 on a slide with a saturated solution of rhodamine 6G, 720 nm pump, 815 nm probe (approximate), on the OPO-based pump-probe laser system in the Warren lab at Duke University. (JWW)

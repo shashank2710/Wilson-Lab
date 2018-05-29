@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<pumpProbeStandardsSet>
+	<description>
+	EU/FeEU standards set at combination of 705/817nm and
+	720/817nm pump/probe. Data recorded 2013-08-10 by SD,
+	compiled 2013-08-10 SD.
+
+	Four standards: eumelanin, both EDTA-washed and iron-loaded;
+	synthetic pheomelanin, and hemoglobin.
+	</description>
+
+	<pumpProbeStandard>
+		<name>EDTAEu</name>	
+		<description>EDTA-washed eumelanin, dry powder on a slide</description>
+
+		<pumpWavelength>705,720</pumpWavelength>
+		<probeWavelength>817,817</probeWavelength>
+
+
+		<color_red>1.0</color_red>
+		<color_green>0.0</color_green>
+		<color_blue>0.0</color_blue>
+
+		<fileName>EDTAEu_705_817_720_817_08102013.mat</fileName>
+
+		<scale>1.0</scale>
+	</pumpProbeStandard>
+
+	<pumpProbeStandard>
+		<name>FeEu</name>	
+		<description>Iron-loaded eumelanin, dry powder on a slide</description>
+
+		<pumpWavelength>705,720</pumpWavelength>
+		<probeWavelength>817,817</probeWavelength>
+
+
+		<color_red>0.0</color_red>
+		<color_green>0.0</color_green>
+		<color_blue>1.0</color_blue>
+
+		<fileName>FeEu_705_817_720_817_08102013.mat</fileName>
+
+		<scale>1.0</scale>
+	</pumpProbeStandard>
+
+
+</pumpProbeStandardsSet>
