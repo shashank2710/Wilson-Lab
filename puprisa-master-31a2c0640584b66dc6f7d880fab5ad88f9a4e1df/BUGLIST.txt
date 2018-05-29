@@ -1,0 +1,5 @@
+- (7/20/2011) some images don't display in the FOV calibration screen when loaded
+- (7/20/2011) tab order messed up in FOV calibration screen
+- (7/21/2011) aborting calibration process leaves calibration prefs blank and then channels won't open at all
+- (7/21/2011) readImageStack is intolerant to extra blank lines at the end of a .dat file
+- (4/10/2012) RGB Histogram in principal component image is broken

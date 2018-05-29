@@ -1,0 +1,5 @@
+- Look into installing as matlab toolbox
+- Extend update script to also upload (via sftp) to warren group directory
+- set up calibration dialog to load images by default from the last accessed directory
+- Pump-probe delay principal components of mosaics
+...

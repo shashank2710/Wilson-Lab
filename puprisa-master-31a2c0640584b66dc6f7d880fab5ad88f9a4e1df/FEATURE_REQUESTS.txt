@@ -1,0 +1,19 @@
+- Image enhancement by triangular convolution (See confocal microscopy papers)
+- Make each new ROI appear with a new color
+- thicken ROI lines for better figures (and add thicker background)
+- Build up database of ROIs for PCA
+- Biexponential fit all pixels of an image, make a time constant image
+- Custom initial guesses in the multiexponential fit
+- Show percent contribution of each principal component
+- Assign different color to pos. and neg. for each principal component
+- Principal component histogram and entropy measure
+- Pump-probe instrument response deconvolution
+- Combine linear projection GUI with PCA GUI (so PCs can be used as a basis for linear projection)
+- Display a cross-section in z stack viewer
+- Low-pass filtering of pump-probe signals.
+- Illumination correction (fit B-spline surface, then divide)
+- reflectance artifact rejection
+- scale z stacks by index of refraction for more accurate depth measurements
+- Export stacks to a sequence of powerpoint slides
+- When multiple channels are open from the same stack, synchronize these windows.
+- 4D stack viewer (x, y, z, t), and PCA for the entire z-t stack

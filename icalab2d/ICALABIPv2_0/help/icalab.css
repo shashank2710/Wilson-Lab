@@ -1,0 +1,95 @@
+BODY
+{
+    CURSOR: crosshair;
+    BACKGROUND-COLOR: #ffffff
+}
+A
+{
+    COLOR: #0000ff;
+    TEXT-DECORATION: none
+}
+A:hover
+{
+    COLOR: #ff0000;
+    TEXT-DECORATION: none
+}
+H1
+{
+    FONT-WEIGHT: bold;
+    TEXT-ALIGN: left
+}
+H2
+{
+    FONT-WEIGHT: bold;
+    TEXT-ALIGN: left
+}
+H3
+{
+    FONT-WEIGHT: bold;
+    TEXT-ALIGN: left
+}
+TTT
+{
+    BORDER-RIGHT: thin outset;
+    PADDING-RIGHT: 10pt;
+    BORDER-TOP: thin outset;
+    PADDING-LEFT: 10pt;
+    MARGIN-LEFT: 3pt;
+    BORDER-LEFT: thin outset;
+    COLOR: black;
+    MARGIN-RIGHT: 3pt;
+    BORDER-BOTTOM: thin outset;
+    BACKGROUND-COLOR: #d4cfc9;
+    TEXT-ALIGN: left
+}
+SMALL
+{
+}
+SUP
+{
+}
+DT
+{
+    FONT-WEIGHT: bolder
+}
+LI
+{
+    LINE-HEIGHT: 1.5em;
+    TEXT-ALIGN: justify
+}
+P
+{
+    LINE-HEIGHT: 1.5em;
+    TEXT-ALIGN: justify
+}
+H6
+{
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 10pt;
+    COLOR: darkblue;
+    FONT-STYLE: normal;
+    FONT-FAMILY: Arial;
+    TOP: 10pt;
+    TEXT-ALIGN: center
+}
+H5
+{
+    FONT-WEIGHT: normal;
+    FONT-SIZE: 10pt;
+    COLOR: darkblue;
+    FONT-STYLE: normal;
+    FONT-FAMILY: Arial
+    TOP: 1pt;
+    TEXT-ALIGN: center
+}
+TABLE
+{
+    FONT-SIZE: 10pt;
+    COLOR: darkgreen;
+    FONT-FAMILY: 'Arial CE'
+}
+H4
+{
+    FONT-FAMILY: Arial;
+    TEXT-ALIGN: justify
+}

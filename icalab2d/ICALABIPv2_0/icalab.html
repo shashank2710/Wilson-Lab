@@ -1,0 +1,2732 @@
+<html>
+<head>
+   <title>ICALAB for Image Processing</title>
+   <link href="help/icalab.css" type="text/css" rel="stylesheet">
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="description" content="ICALAB for Image Processing">
+   <meta name="keywords" content="ICALAB, ICALAB for Image Processing, image processing, independent component analysis, ICA, dynamic independent, component analysis, DICA, blind source separation, BSS, blind source extraction, BSE, blind signal processing, BSP, blind equalization, BE, blind deconvolution, BD, principal, component analysis">
+   <style type="text/css">
+<!--
+.style1 {color: darkblue}
+-->
+   </style>
+</head>
+
+<body>
+
+<h1>ICALAB for Image Processing</h1>
+
+<h2>Toolbox for ICA, BSS, BSE</h2>
+
+<P>
+<b>The ICALAB Package:</b>
+
+<ul>
+ <li><b>for Image Processing</b></li>
+</ul>
+
+<p>
+has been designed and developed by:
+
+<p>
+<b>Andrzej Cichocki</b>, <b>Shun-ichi Amari</b>, <b>Krzysztof Siwek</b>,
+</p>
+
+<p>
+<b>Sergio Cruces</b>, <b>Toshihisa Tanaka</b>,   <b>Pando Georgiev</b>, <b> Zbigniew Leonowicz</b>,
+
+<b>Tomasz Rutkowski</b>,   <b>Seungjin Choi</b>, <b>Adel Belouchrani</b>,
+
+<b>Allan Barros</b>, <b>Ruck Thawonmas</b>, <b>Tetsuya Hoya</b>,
+
+<b>Wakako Hashimoto</b>, <b>Yasushi Terazono</b> and <b>Tomomi Watanabe</b>
+
+in cooperation with other members of the
+
+<a href="http://www.bsp.brain.riken.jp">Laboratory for Advanced Brain Signal Processing</a>.
+
+
+
+<p>
+
+The graphic design, data visualization, user interface, extensive testing
+
+and integration of most of the existing algorithms have been implemented
+
+in MATLAB<sup>®</sup> by: <b>Krzysztof Siwek</b>, <b>Andrzej Cichocki</b>, <b> Toshihisa Tanaka</b> and <b>Tomasz Rutkowski</b>.
+
+
+
+<p>
+The current version is 2.0a, as of March 20, 2004.
+
+<p>
+<code>MATLAB<sup>®</sup> is a registered trademark of The MathWorks, Inc.</code>
+
+<p>
+A similar package has been developed for
+<b><a href="http://www.bsp.brain.riken.jp/ICALAB/">Signal Processing</a></b>.
+
+<p>
+The comprehensive reference for both packages is the following book:
+
+<p>
+<a name="book"></a>
+<center>
+<a href="http://www.bsp.brain.riken.jp/ICAbookPAGE/"><b><u><font size="+1">Adaptive
+Blind Signal and Image Processing</font></u></b>
+<br><br>
+by <b>Andrzej Cichocki</b> and <b>Shun-ichi Amari</b>
+<br><br>
+John Wiley, Chichester, UK, 2003.</a>
+</center>
+
+<h4>
+
+<b><font size="5">The general concept of ICALAB</font></b></h4>
+
+
+
+<p>
+
+The important and unique features of our ICALAB    toolboxes are <b>preprocessing</b> 
+and <b>postprocessing</b> tools (Fig. 0).<p style="text-align: center">
+
+  <center>
+  <A href="help/flow-proc.gif">
+  <IMG alt="Conceptual model of ICALAB Toolbox"
+  src="help/flow-procsmall.gif" border=0 width="571" height="157"></A>
+  <h6><b>Fig. 0</b> Conceptual model of ICALAB Toolbox.</h6>
+  </center>
+
+
+<p>
+Actual optional <b>PREPROCESSING</b> tools include: Differentiation (1<sup>st</sup> and 2<sup>nd</sup> order), High Pass Filtering , Averaging, Low Pass Filtering, Subband Decomposition and Selection,  FIR/IIR Filter Design Tool as well as user defined preprocessing. 
+<p>
+
+<b>POSTPROCESSING</b> tools actually includes: Deflation and Reconstruction 
+("cleaning") of original raw data by removing undesirable components, noise or 
+artifacts.<br>
+<br>
+Moreover, the ICALAB Toolboxes have flexible and extendable structure with    the 
+possibility to extend the toolbox  by the users by adding their own algorithms.
+<br>
+The algorithms can perform not only ICA ;but also Second Order  Statistics Blind 
+Source Separation (<b>BSS</b>) Sparse Component Analysis (<b>SCA</b>), Nonnegative Matrix 
+Factorization (<b>NMF</b>),    Smooth Component Analysis (<b>SmoCA</b>), Factor Analysis (<b>FA</b>) 
+and any other possible matrix factorization of the form <b>X=HS+N</b> or
+<b>Y=WX</b> where <b>H=W<sup><font face="Arial">+</font></sup></b> is a mixing matrix or a matrix of basis 
+vectors.<br>
+<br>
+The ICA/BSS algorithms are pure mathematical formulas, powerful, but rather mechanical procedures: 
+There is not very much left for the user to do after the 
+machinery has been optimally implemented. The successful and efficient use of 
+the ICALAB strongly depends on <i>a priori</i> knowledge, common sense and  
+appropriate use of the preprocessing and postprocessing tools. In other words, 
+it is preprocessing of data and postprocessing of models where expertise is 
+truly needed (see the <a href="http://www.bsp.brain.riken.jp/ICAbookPAGE/">
+book</a>).<br>
+On the other hand, the assumed linear mixing models must be valid at least 
+approximately and original sources signals should have specified statistical 
+properties.<br>
+
+</p>
+
+
+<p>
+<b>ICALAB</b> can be useful in the following tasks:</p>
+
+<ol>
+  <li>Reduction of redundancy (Chapter 3),</li>
+  <li>Decomposition of a sequence of images into
+      independent components (Chapters 6-8),</li>
+  <li>Spatio-temporal decorrelation of correlated signals (Chapter 4),</li>
+  <li>Extraction and removal of undesirable artifacts and
+      interference by applying deflation (see Chapters 1 and 4),</li>
+  <li>Removal of noise or "cleaning" the raw sensor data,</li>
+  <li>Extraction of features and patterns,</li>
+  <li>Comparison of the performance of various algorithms
+      for Independent Component Analysis (ICA), Blind Source Separation (BSS),
+      Sequential Blind Sources Extraction (BSE) algorithms.</li>
+</ol>
+
+<p>
+The package contains a collection of algorithms for whitening, robust
+orthogonalization,
+ICA, BSS and BSE. The user can easily compare various algorithms for
+Blind
+Source Separation (BSS) employing the second order statistics (SOS) and ICA
+using the higher order statistics (HOS).
+This package is hence quite versatile and extendable for a user algorithm.
+
+<p>
+Several benchmarks are included to illustrate the performance of the various
+algorithms work for a selection synthetic and real world images
+(see <a href="#benchmarks">Benchmarks</a>).
+
+<p><b>Limitation of version 2.0:</b> </p>
+<p>The current version  of the package is limited to a maximum of 16 images. In the 
+future, we plan to extend <b>ICALAB for Image Processing</b> for processing up 
+to 256 images, which might be useful for applications such as computer 
+tomography and functional neuroimaging.</p>
+
+<p>
+<hr>
+
+<p>
+<font size="-2">NEITHER THE AUTHORS NOR THEIR EMPLOYERS ACCEPT ANY
+RESPONSIBILITY OR LIABILITY
+FOR LOSS OR DAMAGE OCCASIONED TO ANY PERSON OR PROPERTY THROUGH USING
+SOFTWARE, MATERIALS, INSTRUCTIONS, METHODS OR IDEAS CONTAINED HEREIN,
+OR ACTING OR REFRAINING FROM ACTING AS A RESULT OF SUCH USE. THE AUTHORS
+EXPRESSLY DISCLAIM ALL IMPLIED WARRANTIES, INCLUDING MERCHANTABILITY
+OR FITNESS FOR ANY PARTICULAR PURPOSE. THERE WILL BE NO DUTY ON THE AUTHORS
+TO CORRECT ANY ERRORS OR DEFECTS IN THE SOFTWARE.
+
+<p>
+THIS SOFTWARE AND THE DOCUMENTATIONS ARE THE PROPERTY OF THE AUTHORS AND
+SHOULD BE ONLY USED FOR SCIENTIFIC AND EDUCATIONAL PURPOSES.
+
+<p>
+ALL SOFTWARE IS PROVIDED FREE AND IT IS NOT SUPPORTED.
+THE AUTHORS ARE, HOWEVER, HAPPY TO RECEIVE COMMENTS, CRITICISM AND
+SUGGESTIONS
+ADDRESSED TO <A href="mailto:icalab@brain.riken.jp">icalab@brain.riken.jp</A>
+</font>
+
+<p>
+<hr>
+
+<a name="Getting started"></a>
+<h1>User guide</h1>
+<h2>Starting ICALAB</h2>
+
+<p>
+To start <b>ICALAB for Image Processing</b> type:
+
+<p>
+<tt>icalab</tt>
+
+<p>
+in the <b>MATLAB</b> command window (<b>Note: this package runs on MATLAB
+6.0 or higher</b>).
+
+<p>
+<b>ICALAB for Image Processing</b> was developed under MATLAB version
+6.0 and tested under MATLAB versions:  6.0 , 6.1 and 6.5
+(<b>Note: Previous versions (i.e. 5.3) may not work properly due to
+some unsupported  functions</b>.)
+<p><h2> Loading the processing data</h2>
+
+<p>
+To load new images for further processing
+
+<ol>
+  <li>Click on the <tt>LOAD IMAGES</tt> button in the main <b>ICALAB</b> window
+  (note: initially, only this button is activated.Other<tt></tt> buttons will become active loading of the images.
+  <p>
+  <center>
+  <a href="help/icalab2d_p1.gif">
+  <img SRC="help/icalab2d_p1_small.gif" ALT="General ICALAB window" BORDER=0 width="440" height="442"></a>
+  <h6><b>Fig. 1</b> Initial window after starting the program <b>ICALAB for Image Processing</b>.
+  Please click on the <tt>LOAD</tt> button to load your images.
+  The following formats are accepted: <code>jpeg</code>,
+  <code>png</code>, <code>bmp</code>, <code>pcx</code>, <code>tiff</code>.
+  Moreover, you can save all pre-loaded images in one single
+  file in <code>MATLAB</code> format <code>*.mat</code>
+  (Press on image to enlarge).</h6>
+  </center>
+
+  <p>
+  <li>Choose the images one by one until you load all of them (remember that all
+  images should have the same size and color scheme!). The following formats are
+  supported: <b>JPEG</b> (*.jpg or *.jpeg), <b>PNG</b> (*.png), <b>TIFF</b> (*.tif
+  or *.tiff) <u>except the files compressed with LZW algorithm </u>, <b>BMP</b>
+  (*.bmp) and <b>PCX</b> (*.pcx). Additionally, you are able to
+  read and save several images in a single <B>MAT</B> (*.mat) file.
+
+  <p>
+  The processing speed of many algorithms depends on the size of
+  images and the amount of memory and processor speed of your computer. In order to
+  process large images, you might need to increase the system memory.
+
+  <p>
+  <center>
+  <a href="help/icalab2d_p12.gif">
+  <IMG alt="File load window" src="help/icalab2d_p12_small.gif" border=0 width="360" height="222"></a>
+  <h6><b>Fig. 2</b> Window illustrating how to load your images.
+  After selecting suitable file, click on <tt>Open</tt>. For quick loading select
+  a MATLAB <code>mat</code> file, which contains all images in a specific benchmark.
+  After loading all images, click on <tt>Cancel</tt>.</h6>
+  </center>
+
+  <li>After loading all images one by one, click the <tt>Cancel</tt> button in the
+  file load menu. Only this method of choosing files is supported
+  in current versions of MATLAB.
+
+    <p>
+  <center>
+  <a href="help/icalab2d_p2.gif">
+  <IMG alt="File load window" src="help/icalab2d_p2_small.gif" border=0 width="360" height="280"></a>
+  <h6><b>Fig. 3</b> Window after loading of all images. You can load or discard a specific image by
+  clicking on the image.
+  Furthermore, you can save all selected images in one <code>MATLAB</code>
+  file <code>name.mat</code> for quick loading and processing of images in the future.</h6>
+  </center>
+
+  <p>
+  The window <i>Select images to load</i> will appear. You can now select the images you want to load.
+  You can discard (delete) a specific image by
+  clicking on it (the color scale of the image
+  will become darker). After selecting images, you can save the set
+  of images into a single MAT file for more convenient loading in future sessions.
+
+
+  <p>
+  The button <tt>Save as MAT</tt> allows you to choose the destination and file name.
+  Later, you can read such exported image sets directly from <i>Select images to load</i> window.
+
+  <p>
+  Before you proceed to the final step, you may choose the loading parameters such as:
+
+  <p>
+  <b>Direction of image scanning</b>
+
+  <ul>
+   <li><b>Horizontal:</b> the case when images are transformed into
+   one-dimensional signals by scanning pixels horizontally row by row before further processing.</li>
+   <li><b>Vertical:</b> the case when images are transformed into one-dimensional
+   signals by scanning vertically column by column before further processing.</li>
+  </ul>
+
+  <p>
+  <center>
+  <a href="help/icalab2d_p19.gif">
+  <IMG alt="Direction of image scanning" src="help/icalab2d_p19_small.gif" border=0 width="360" height="281"></a>
+  <h6><b>Fig. 4</b> Window illustrating options of converting loaded images
+  into suitable 1-D signals. You can estimate the parameters of demixing / ICA systems by processing
+  the whole images or an arbitrary size block of images.
+  Furthermore, you can scan pixels horizontally or vertically line by line.
+  Another important option is to process pixels randomly (random sampling).</h6>
+  </center>
+
+ <p>
+ <b>Processing area</b>
+
+ <ul>
+  <li><b>Whole images</b> - regular sampling (all pixels are scanned sequentially
+         one by one and row by row or column by column.</li>
+
+  <li><b>Whole images - random sampling:</b> This option uses the whole image area for
+         estimation of the demixing matrix (pixels are scanned randomly). This option
+         is recommended for images that look similar (like human faces),</li>
+
+  <li><b>Blocks of images - regular sampling:</b> In this option, you can choose
+         a rectangular block of arbitrary size on one of the images using mouse.
+         Only pixels within such area on every image will be taken for demixing
+         matrix estimation,</li>
+
+  <li><b>Block of images - random sampling:</b> This option uses randomly shuffled points
+         from rectangular blocks chosen by the user.</li>
+ </ul>
+
+ <p>
+  <center>
+  <a href="help/scanning1.gif">
+  <img alt=Scanning src="help/scanning1.gif" border=0 width="550" height="203"></a>
+  <h5>Snake form (briefly s-scanning)</h5>
+  <a href="help/scanning2.gif">
+  <img alt=Scanning src="help/scanning2.gif" border=0 width="550" height="203"></a>
+  <h5>TV scanning (line by line or column by column)</h5>
+  <h6><b>Fig. 5</b> Plots illustrating different forms of sampling.
+  Please note that sampling of images or preselected block of images can
+  proceed by sampling pixel by pixel or randomly and sparsely.</h6>
+ </center>
+
+ <p>
+ Finally, you can load so encoded images by clicking on the <tt>LOAD</tt> button.
+
+</ol>
+
+
+<h2>Mixing the images</h2>
+
+<p>
+You can mix images synthetically in case they are not originally mixed.
+Leave the option with <i>identity</i> (unit matrix) for  real world data.
+
+<p>
+<center>
+<a href="help/icalab2d_p13.gif">
+<IMG alt="Mixing the images" src="help/icalab2d_p13_small.gif" border=0 width="440" height="442"></a>
+<h6><b>Fig. 6</b> Window illustrating how to choose the mixing matrix <b>H</b>.
+If your data are real-data (not benchmark or test data), please ignore
+this option. Default mixing matrix is identity matrix (<b>H</b> = <b>I</b>).</h6>
+</center>
+
+<p>
+The option to mix the source signals is applied only for testing and
+comparing the performance of various algorithms. In <b>ICALAB</b>, eight
+alternative ways to generate such mixing matrices are preset:
+
+<ul>
+  <li>Identity (unit matrix) - for real world data signals,</li>
+  <li>Randomly generated nonsingular matrix,</li>
+  <li>Randomly generated nonsingular symmetric matrix,</li>
+  <li>Randomly generated nonsingular ill-conditioned matrix with
+      the conditioning number larger than 10000,</li>
+  <li>Hilbert matrix (which is very ill conditioned),</li>
+  <li>Toeplitz matrix,</li>
+  <li>Hankel matrix,</li>
+  <li>Any specific matrix edited manually by user.</li>
+</ul>
+
+<p>
+The last option is limited to 15x15 mixing matrix.
+For this option, click on the
+<tt>EDIT</tt> button and the following window will appears.
+Every element of the mixing matrix may now be edited. After typing in the entries,
+you will see that both the determinant and condition numbers of the mixing
+matrix <b>H</b> are automatically updated.
+
+<p>
+<center>
+<A href="help/icalab2d_p9.gif">
+<IMG alt="Mixing matrix editor" src="help/icalab2d_p9_small.gif" border=0 width="360" height="230"></A>
+<h6><b>Fig. 7</b> Window illustrating how to edit the mixing matrix <b>H</b>.
+The editable mixing matrix <b>H</b> can not be larger than 15x15 in size.</h6>
+</center>
+
+<p>
+Optionally, the mixing matrix <b>H</b> can be rectangular, you can select
+a size of the matrix <b>H</b> by clicking on sub-window <i>No. of sensor</i>
+and choosing the desired number of observations.
+
+
+<a name="noise"></a>
+<h2>Adding noise to the images</h2>
+
+<p>
+You can also add noise to the images before performing ICA or BSS with the following options:
+
+<ul>
+  <li><b>No noise</b> - the sensor signals are not changed.</li>
+  <li><b>Gaussian noise</b> with SNR level from 20dB down to 15dB, 10dB, 5dB,
+  and 0dB - the white Gaussian noise is added
+  to the signals with the selected SNR level.</li>
+  <li><b>Uniform noise</b> with SNR level from 20dB down to 15dB, 10dB,
+  5dB, and 0dB - the uniformly distributed noise is added to the signals with
+  the selected  SNR level.</li>
+  <li><b>Salt & pepper noise</b> - <EM>data drop-out</EM> noise (commonly referred
+  to as <EM>intensity spikes</EM>,
+<EM>speckle</EM> or <EM>salt and pepper noise</EM>). The noise is caused
+by errors in the data transmission. The corrupted pixels are either set to the
+maximum value (which looks like snow in the image) or have single bits flipped
+over.  Unaffected pixels remain unchanged. The noise is quantified by the
+percentage of pixels which are corrupted. </li>
+</ul>
+
+<p>
+This option can be used e.g., to investigate the robustness of
+a specific algorithm with respect to additive noise (please try,
+for example, SOBI-RO or SONS algorithm).
+
+<p>
+<center>
+<A href="help/icalab2d_p14.gif">
+<IMG alt="Noise level" src="help/icalab2d_p14_small.gif" border=0 width="440" height="442"></A>
+<h6><b>Fig. 8</b> Window illustrating the procedure of adding noise synthetically.
+Please ignore this option for real data.
+The noise can be added to test robustness of algorithms for benchmarks.</h6>
+</center>
+
+
+
+<h2>Choosing the algorithm</h2>
+
+<p>
+Once you have loaded data and optionally mixed them, you
+can select one of the available algorithms. There is a long list of
+algorithms which you can apply. You can find detailed descriptions of each
+algorithm either in the <a href="#book">Book</a>
+or through the online help <A href="#algorithms">here</A>.
+
+<p>
+You can also add your own algorithm(s) to test and compare their performance
+with other algorithms. Please refer to the example
+m-files: <A href="#user_alg1">user_alg<i>k</i>.m</A>
+to see how <b>ICALAB</b> calls the user-defined algorithms. The user
+algorithm should return only demixing (separating) matrix <b>W</b>.
+
+<p>
+<a name="alg_names"></a>
+<center>
+<A href="help/icalab2d_p15.gif">
+<IMG alt="Algorithms" src="help/icalab2d_p15_small.gif" border=0 width="440" height="442"></A>
+<h6><b>Fig. 9</b> Window illustrating how to select an algorithm form the long
+list of available algorithms for ICA, BSS, BSE. The are three kind of algorithms:
+ICA algorithms exploiting mutual independence based on higher order
+statistics (HOS) (e.g., Natural Gradient (NG) algorithms, JADE, FICA (Fixed Point
+algorithms)), BSS algorithms based on second order statistics (SOS) and exploiting
+spatio-temporal decorrelation (e.g., BSS SVD, SOBI-RO).
+BSE algorithms can extract arbitrary group of sources
+sequentially one by one.
+User can add their own algorithm using <code>user_alg<i>k</i>.m</code> file.</h6>
+</center>
+
+<p>
+Most of the algorithms within the package are supplied with default parameters.
+Thus, you can start testing the algorithms without the need for adjusting
+or preselecting any parameter. The default parameters are already
+tuned to close to approximate optimum values for typical data. Otherwise,
+you can tune the parameters for most of the algorithms by clicking
+on the advanced option button <tt>ADV. OPTIONS</tt>.
+It is recommended that you use this option
+and tune the parameters if you are already familiar with the algorithm (see the
+<a href="#book">Book</a> for derivation, properties, and description of the algorithms).
+
+<p>
+<center>
+<A href="help/icalab2d_p10.gif">
+<IMG alt="Advanced options" src="help/icalab2d_p10_small.gif" border=0 width="360" height="203"></A>
+<h6><b>Fig. 10</b> Window illustrating how to use <i>Advanced Options</i>.
+The experienced user can use the advanced options by clicking on <tt>ADV. OPTIONS</tt> button to choose
+appropriate parameters. Some algorithms do not use any adjustable parameters.</h6>
+</center>
+
+<p>
+After selecting an algorithm and optionally adjusting its parameters,
+you can click on the button <tt>RUN ALGORITHM</tt>. The learning procedure
+will begin and the algorithm specific messages will appear
+in the main MATLAB command window. During computation, an additional
+window displaying the algorithm name will appear.  You can stop the learning
+process by clicking on the <tt>INTERRUPT</tt> button.
+
+<p>
+<center>
+<A href="help/icalab2d_p11.gif">
+<IMG alt="Algorithm is running" src="help/icalab2d_p11_small.gif" border=0 width="360" height="196"></A>
+<h6><b>Fig. 11</b> Interrupt Window. Please click on the <tt>INTERRUPT</tt> button to stop
+algorithm for example if convergence is very slow and you want to try faster alternative algorithms.</h6>
+</center>
+</p>
+
+&nbsp;
+<a name="SUBBAND"></a>
+<h2>Multiresolution Subband Decomposition - Independent Component Analysis (MSD-ICA)</h2>
+<p></p>
+<p> By definition, standard ICA algorithms are not able to estimate statistically dependent sources, that is, when the assumption of independence does not hold. In many cases, however, we may be able to reconstruct the original sources using simple preprocessing techniques and to estimate mixing and separating matrices, even if the sources are not independent. </p>
+<p> The ICALAB Toolbox enables blind separation of sources for a wide class of signals that do not satisfy the independence assumption. This can be achieved by applying second order statistics (SOS), exploiting spatio-temporal decorrelation (STD) of sources, or applying linear predictability (LP) and smoothness criteria (see the <a href="#book">book</a>) and for some preprocessing, such as: differentiation, high- low-pass filtering, sparsification or subband decomposition. 
+<p> Moreover, each unknown source can be modeled or represented as a sum of narrow-band sub-signals (components). Provided that for some of the sub-bands (at least one) sub-components are mutually independent or temporally decorrelated, suitably designed sub-band filters can be used in the preprocessing stage to extract mixture of them assuming that these sub-bands can be identified by <i>a priori</i> knowledge. The standard ICA or BSS algorithms for such transformed (filtered) mixed signals can then be applied. In one of the simplest case, the source signals can be modeled or decomposed into their low- and high- frequency components. In practice, the high frequency components are often found to be mutually independent. In this case, we can use a High Pass Filter (HPF) to extract high frequency sub-components and then apply any standard ICA algorithm to such preprocessed sensor (observed) signals.
+  
+<p> In the new, updated version ICALAB 2.0 this optional preprocessing has been implemented. To use this option, click on the <tt>Preprocessing</tt> button at the main ICALAB window.This option is particularly useful for blind separation of dependent or correlated source signals or images, such as faces or natural images, where you will notice significant improvements in the performance of the algorithms. In the preprocessing stage, more sophisticated methods, such as band pass filters or wavelet transforms, can also be applied. Optimal choice of a transformation depends on a specific application and optimal parameters are problem dependent. Experiments are necessary to choose the optimal parameters.
+<p>
+<p>
+<h2><a name="Preprocessing"></a>Preprocessing</h2>
+<p>Click on the <tt>Preprocessing</tt> button in order to perform preprocessing of sensor data. In the first step two window appear (Fig. A), when you can select different preprocessing techniques.</p>
+<p> You can choose one from the following options: </P>
+<ol>
+  <li>No preprocessing.</li>
+  <li>Differentiation (first and second order).</li>
+  <li>Highpass filtering (Butterworth filter) with adjustable cutoff frequency.</li>
+  <li>Averaging with adjustable number of cascades of first order low-pass filters.</li>
+  <li>Lowpass filtering (Butterworth filter) with adjustable cutoff frequency.</li>
+  <li>Subband decomposition and selection: See below. </li>
+  <li>IIR/FIR filter design tool with numerous options. See below.</li>
+  <li>User-defined preprocessing function. Edit the file <span class="style3"><em>preprocessing_user.m</em></span> accordingly. </li>
+</ol>
+<table width="725" height="331" border="0" align="center">
+  <tr>
+    <td width="447" height="327"><a href="help/prep1.gif"><img alt="Preprocessing main window"
+src="help/prep1small.gif" border=0 width="440" height="173"></a></td>
+    <td width="268"><a href="help/prep10.gif"><img src="help/prep10small.GIF" width="440" height="301" border="0"></a></td>
+  </tr>
+</table>
+<center>
+  <h6><b>Fig. A</b> The two windows for choosing parameters of preprocessing and visualizing the mixed images.</h6>
+</center>
+<p></p>
+<p>Every preprocessing procedure is performed before the ICA algorithm and after pressing of the button <tt>OK</tt>. Preprocessing options remain active as long as you do not change the mixing matrix, the noise level or one of the preprocessing options. </p>
+<h3>Differentiation</h3>
+<p>This option allows to compute differences between values of subsequent pixels and enhance edges in the image.</p>
+<table width="725" height="179" border="0" align="center">
+  <tr>
+    <td width="368" height="175"><a href="help/prep_dif.gif"><img alt="Source images"
+src="help/prep_difsmall.gif" border=0 width="360" height="173"></a>    </td>
+    <td width="368"><a href="help/prep_dif2.gif"><img src="help/prep_dif2small.GIF" alt="Images after differentiation" width="360" height="173" border="0"></a></td>
+  </tr>
+</table>
+<h6><b>Fig. B. </b> Figures present the source images and  the images after differentiation. </h6>
+<center>
+</center>
+<h3>IIR/FIR filter design tool</h3>
+<p>This option allows comprehensive design of IIR and FIR filters with visualization of parameters. The Fig. C below shows the options, which include:</p>
+<ol>
+  <li>Setting of frequency range, autodetection of significant part of the signal spectrum, based on spectrogram (95% of the signal power). You can select <tt>Range of Interest</tt> or <tt>Full Range</tt>.</li>
+  <li>Filter type: lowpass, highpass, bandpass, bandstop.</li>
+  <li>IIR filters: Butterworth, Chebyshev I &amp; II, Elliptic</li>
+  <li>FIR filters: Window-based, Least-Squares, Equiripple.</li>
+  <li>Filter order, visualization of filter impulse response, phase or magnitude characteristics and other parameters.</li>
+</ol>
+<center>
+  <a href="help/prep100.GIF"><img src="help/prep100small.GIF" alt="IIR/FIR design tool" width="440" height="483" border="0"></a>
+  <p></p>
+</center>
+<h6 align="center">Fig. C. The window for IIR/FIR filter design. It is possible to adjust many parameters of the filters and plot the magnitude, phase and impulse response of the filter. The <tt>Range of Interest</tt> (marked in white) contains 99,9% of the power of the signal. After selecting the <tt>Display the preprocessed (filtered) signals</tt> it appears a new window with filtered images. </h6>
+<p>&nbsp;</p>
+<H3>Subband decomposition and selection</H3>
+<P>This option provides a powerful preprocessing method for the ICA/BSS. The subband transform decomposes the input signal into several subbands by applying the corresponding bandpass filters. The figure shows the subband decomposition structure and the frequency responses for the filters. The number of subbands and the specific filter (Butterworth, Chebyshev I/II, Elliptic) can be selected by the user.</P>
+<p>
+<center>
+  <A href="help/prep2.gif"> <IMG alt="Subband filtering"
+src="help/prep2small.gif" border=0 width="440" height="142"></A>
+  <h6><b>Fig. D </b> Subband filtering.</h6>
+</center>
+<p></p>
+<P>Let be <I>m </I> signal mixtures <i>x<sub>i</sub>(k)</i>; (<i>i</i>= 1, ..., <I>n</I>). Let <I>L</I> be the number of subbands. Then, every mixture <i>x<sub>i</sub>(k) </i> is decomposed into <I>L</I> subsignals <i>x<sub>i</sub><sup>(l)</sup>(k)</i> ; (<I>l</I> = 1, ..., <I>L</I>). It is expected that if we select one or preferably several subsignal(s) from them (including the original mixture <i>x<sub>i</sub>(k)</i> (denoted as <i>x<sub>i</sub><sup>(0)</sup>(k)</i> in the figure B), based on an appropriate criterion, we can achieve better separation.</P>
+<p> You can set parameters listed as follows: </P>
+<UL>
+  <LI>
+    <P>Number of subbands: This parameter corresponds to <I>L</I> in the above figure.</P>
+  <LI>
+    <P>Filter name: To construct a bank of filters, you can choose a filter from Butterworth, Chebyshev I/II and Elliptic.</P>
+  <LI>
+    <P> Order of the filter </P>
+  <LI>
+    <P> Number <em>L</em> of subbands to be selected </P>
+  <LI>
+    <P> Subband selection criterion: It can be chosen the following cost functions : <i>l<sub></sub></i><sub>1</sub>-norm, <i>l<sub></sub></i><sub>p</sub>-norm or kurtosis </P>
+</UL>
+<p>
+  <center>
+    <IMG alt="l-p norm"
+src="help/preprocessing_l-p.gif" width="329" height="69">; <i> p </i>= 0.5 or 1
+  </center>
+</p>
+<p>
+  <center>
+    <IMG alt="kurtosis"
+src="help/preprocessing_kurtosis.gif" width="334" height="69" >
+  </center>
+</p>
+where <i>x<sub>i</sub><sup>(l)</sup>(k)</i> is normalized so that it has zero mean and unit variance. The user can define his own cost function by editing the <span class="style3">useralg_pre.m</span> file
+<p>It is possible to view the spectrum of the data (FFT) by pressing the <tt>View FFT</tt> button in the preprocessing window.
+<p>
+<center>
+  <A href="help/prep20.gif"> <IMG alt="View FFT"
+src="help/prep20small.gif" border=0 width="440" height="306"></A>
+  <h6><b>Fig. E. </b> Spectrum plot of the signal. 2-D FFT plot of each mixed signal. </h6>
+</center>
+<p></p>
+<p>
+<center>
+  <A href="help/prep3.gif"> <IMG alt="Filtering parameters"
+src="help/prep3small.gif" border=0 width="440" height="558"></A>
+  <h6><b>Fig. F. </b> Subband decomposition and selection of the filtering parameters. </h6>
+</center>
+The user can choose the <tt>Range of Interest</tt>, display the <tt>Prototype</tt> filter or <tt>All Filters</tt>. Other options are similar to those presented in previous subsection.
+<p></p>
+<P> If you check <tt>Display channel signals</tt> and select nodes manually you can display a subband signal for each mixture channel and check the value of the cost function. The detail of this option will be explained below. </P>
+<P>&nbsp;</P>
+<H3> Display channel signals and select nodes manually </H3>
+<P> If this option is selected (see Fig. F), after you click the <tt>APPLY</tt> button, the   window appears where it is possible to choose channels and subbands for further processing: </P>
+<table width="452" height="905" border="0" align="center">
+  <tr>
+    <td width="446" height="300" valign="top"><div align="center">
+      <h6><a href="help/prep4.gif"><img alt="Subband selection"
+src="help/prep4small.gif" border=0 width="440" height="254"></a></h6>
+      <h6>Subband 1  </h6>
+    </div></td>
+  </tr>
+  <tr>
+    <td height="306"><h6 align="center"><a href="help/prep41.gif"><img alt="Subband selection"
+src="help/prep41small.gif" border=0 width="440" height="254"></a></h6>
+      <h6 align="center">Subband 3 </h6>
+    <p align="center">&nbsp;</p></td>
+  </tr>
+  <tr>
+    <td height="260"><h6><a href="help/prep42.gif"><img alt="Subband selection"
+src="help/prep42small.gif" border=0 width="440" height="254"></a></h6>
+      <h6><a href="help/prep42.gif" class="style1">Subband 5 </a></h6></td>
+  </tr>
+</table>
+<p>
+<center>
+  <A href="help/prep4.gif"> </A>
+  <h6><b>Fig. G. </b> Subband selection and display of the  subbands and  channel of the mixed sources. By clicking on the subband number it is possible to see the image corresponding to the chosen subband and to each channel by selecting in the <tt>Display channel no.</tt> list. The subband decomposition is performed after clicking on <tt>Continue to run</tt> button. </h6>
+</center>
+<p></p>
+<center>
+</center>
+<P> The lower-left figure (in Fig. G) shows the value of the chosen criterion for each subband.
+  
+
+<P ALIGN=LEFT> If the mixture i.e. in original, observed data (ROOT in the figure) does not contain higher frequency components, those components are automatically discarded, because the cost function is normalized by the variance of filtered signals, which implies that even if the amplitudes are negligibly small, the value of the cost function can be large. The cost values for those spurious or undesirable subbands are indicated by <SPAN STYLE="background: #ffff00">yellow</SPAN> bars. The selected subband(s) is/ are indicated by <SPAN STYLE="background: #ff0000">red</SPAN> bar(s). </P>
+<P ALIGN=LEFT> Although the ICALAB can select the subband(s) automatically, the user can preselect any subband manually with possibility to display the filtered signals (Fig. G). The upper plot in figure G presents the subband decomposition tree. The subband images <i>x<sub>i</sub><sup>(l)</sup>(k)</i> are plotted in the right part of Fig. G. To change the target mixture, please choose the mixture number <I>i</I> by selecting the corresponding checkbox below the subband number.
+<P ALIGN=LEFT> After selecting the suitable subband filtering of sensor signals, press <tt>OK</tt> in the main preprocessing window and ICA/BSS algorithm starts to run. If you want to reset some options, press <tt>CANCEL.</tt></P>
+<p>&nbsp;</p>
+<p> The main references are:
+<ol>
+  <li>A. Cichocki and P. Georgiev, <i> <a href="http://www.bsp.brain.riken.jp/publications/2003/CichockiGeIEICE.pdf"> Blind Source Separation Algorithms with Matrix Constraints</a></i> , <i>IEICE Transactions on Information and Systems</i>, invited paper, Special Session on Independent Component Analysis and Blind Source Separation. vole. E86-A, No.1, March 2003.</li>
+  <li>A. Cichocki, T. Rutkowski and T. Tanaka: <i>Beyond ICA: Multiresolution Subband Decomposition ICA (MSB-ICA), Smooth Component Analysis (SCA) with constraints, Non-Independent Blind Source Separation (NIBSS). </i>BSI Riken Retreat Oct. 2002.</li>
+  <li>M. Zibulevsky, P. Kisilev, Y. Y. Zeevi and B. A. Pearlmutter: <i>Blind source separation via multinode sparse representation</i>. In: Advances in Neural Information Processing Systems 14, Morgan Kaufmann, 1049-1056, 2002.</li>
+</ol>
+<p>
+<p>&nbsp;</p>
+<h2>Visualizing the results</h2>
+
+<p>
+When the program  finishes computation, we have three sets of parameters:
+
+<ol>
+  <li>The demixing (separating) matrix <b>W</b>.
+  <li>The matrix of independent components (or separated signals):
+  <b>y</b>(k) = <b>W x</b>(<i>k</i>),&nbsp; &nbsp;(<i>k</i> = 1, 2, ..., <i>N</i>),
+  where:
+
+  <ul>
+    <li><i>N</i> - denotes the number of samples (pixels) used in training,
+    <li><b>x</b>(<i>k</i>) - is the vector of observations for <i>k</i>-th pixel,
+    <li>In practice the data are stored in matrix forms, i.e., <b>Y</b> = <b> W
+    X</b> and <b>X</b> = <b>H S</b>, where <b>H</b> is a selected mixing
+    matrix, <b>X</b> = [<b>x</b>(1), <b>x</b>(2), ..., <b>x</b>(<i>N</i>) ]
+    is <i>m</i> by <i>N</i> matrix of observations,
+    <b>S</b> = [<b>s</b>(1), <b>s</b>(2), ..., <b>s</b>(<i>N</i>) ] - is
+    the matrix of primary source signals, and
+    <b>Y</b> = [<b>y</b>(1), <b>y</b>(2), ..., <b>y</b>(<i>N</i>) ] is the
+    matrix of estimated sources.</li>
+  </ul>
+
+  <li>The global mixing-demixing matrix <b>G</b> = <b>W H</b> represents
+  the separation performance of the synthetically mixed sources.  For real
+  world data, <b>H</b> = <b>I</b> and thereby the global matrix
+  <b>G</b> = <b>W</b> is equal to the demixing matrix <b>W</b>.</li>
+</ol>
+
+<p>
+After convergence, you can visualize the results by clicking
+on the <tt>PLOT</tt> button.
+The decomposed images are shown in the <i>Independent components</i> window.
+In addition,
+you can see the loaded images in the <i>Sources</i> window, which displays
+the original images. In case you mixed the images by the randomly generated
+mixing matrix <b>H</b> <font face=Symbol>a</font> <b>I</b>, we recommend that
+you look at the <i>Sensors (mixtures)</i> window. Essentially, there is no
+need for this procedure if your original images were already mixed
+or they  represent real (measured or observed) superimposed sequence of images prepared
+for decomposition
+into independent components and further processing. You can
+look at the performance of the selected algorithm in the
+<i>Global Matrix (Performance Index)</i> window for the artificially mixed sources.
+
+<p>
+<center>
+<table border="0">
+ <tr>
+  <td><a href="help/icalab2d_p5.gif">
+  <img SRC="help/icalab2d_p5_small.gif" ALT="Independent components" BORDER=0 width="320" height="233" ></a>
+  <h5>(a)</h5>
+  </td>
+
+  <td><a href="help/icalab2d_p6.gif">
+  <img SRC="help/icalab2d_p6_small.gif" ALT="Global matrix" BORDER=0 width="320" height="233" ></a>
+  <h5>(b)</h5>
+  </td>
+ </tr>
+
+ <tr>
+  <td><a href="help/icalab2d_p3.gif">
+  <img SRC="help/icalab2d_p3_small.gif" ALT="Sources" BORDER=0 width="320" height="233" ></a>
+  <h5>(c)</h5>
+  </td>
+
+  <td><a href="help/icalab2d_p4.gif">
+  <img SRC="help/icalab2d_p4_small.gif" ALT="Mixtures" BORDER=0 width="320" height="233" ></a>
+  <h5>(d)</h5>
+  </td>
+ </tr>
+</table>
+<h6><b>Fig. 12</b> Four windows illustrating the output results:
+(a) Plot of Independent Components (IC's) or separated or extracted
+(estimated) image sources depending on the used algorithm.
+(b) Plot of Global matrix <b>G</b> = <b>W H</b>, displaying global performance
+index (PI). This plot makes sense only for benchmarks or testing algorithms for known
+sources.
+(c) Plot of primary image sources (if available). If the sources are
+not available, this window displays the sensor (observed) images.
+(d) Plot of linearly mixed (superimposed) images. If identity
+matrix (<b>H</b>=<b>I</b>) is chosen as the mixing matrix the mixed images are
+identical to loaded available images.</h6>
+</center>
+
+
+<p>
+If you choose the 3D option, the global matrix <b>G</b> = <b>W H</b>
+(or <b>G</b> = <b>U Q H</b>) is also plotted in the three dimensional plot (where <b>Q</b>
+is a prewhitening matrix and <B>U</B> is a rotation matrix in the two-stage
+procedure with orthogonalization or prewhitening. Please see
+the <a href="#book">Book</a> for more details).
+
+<p>
+<b>Note:</b> Rendering 3D plots of large number of signals might take a long processing time.
+
+<p>
+<center>
+<A href="help/icalab2d_p17.gif">
+<IMG alt="Global matrix" src="help/icalab2d_p17_small.gif" border=0 width="360" height="263"></A>
+<h6><b>Fig. 13</b> Exemplary 3-D plot of a global performance matrix (<b>G</b> = <b>W H</b>).</h6>
+</center>
+
+<p>
+The window for <i>Estimated mixing matrix <b>H</b> = inv(<b>W</b>)</i> shows distribution of
+entries of estimated mixing matrix.
+
+<p>
+<center>
+<a href="help/helppicplotmatw.gif">
+<img alt="Estimated matrix - inv(W)"
+src="help/helppicplotmatwsmall.gif" border=0 width="320" height="292"></a>
+<h6><b>Fig. 14</b> Exemplary plot of estimated matrix <b>H</b> = inv(<b>W</b>).</h6>
+</center>
+
+<p>
+Optionally, you can specify which plots to show. At the bottom of the main
+ICALAB window, just check/uncheck the plots you want to display. Instead of
+closing the windows separately, just click on the <TT>CLOSE</TT> button.
+Plot windows are closed automatically if you rerun any algorithm. </P>
+
+<p>
+<center>
+<A href="help/icalab2d_p18.gif">
+<IMG alt="Select the plots to show" src="help/icalab2d_p18_small.gif" border=0 width="440" height="442"></A>
+<h6><b>Fig. 14</b> Window illustrating how to choose various plots for the
+visualization of obtained results.</h6>
+</center>
+
+
+<h2>Saving the results</h2>
+
+<p>
+You can save the separation results for further processing by
+clicking on the <tt>SAVE</tt> button. Note that all of the signals will
+be saved into a single MAT file (with the specified name). In the file,
+the variables <b>S</b>, <b>X</b>, <b>Y</b>, <b>H</b>, <b>W</b>,
+<b>G</b> are saved (with the same names as the variables), i.e., <b>S</b>
+- sources, <b>X</b>  - sensors (mixture), <b>Y</b> - independent components
+or estimated sources, <b>H</b> - mixing matrix, <b>W</b> - demixing matrix,
+and <b>G</b> - global (mixing-demixing) matrix.
+
+<p>
+The ICALAB package generally assumes the following generative mixing
+model
+
+<p>
+<center>
+<b>x</b>(<i>k</i>) = <b>H</b> <b>s</b>(<i>k</i>) + <b>v</b>(<i>k</i>),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <i>k</i> =
+  1, 2, ..., <i>N</i>
+</center>
+
+<p>
+where <b>v</b>(<i>k</i>) is a vector of additive noise,
+
+<p>
+or in batch mode
+
+<p>
+<center>
+<b>X</b> = <b>H</b> <b>S</b> + <b>V</b>
+</center>
+
+<p>
+where:
+
+<p>
+<center>
+<b>X</b> = [ <b>x</b>(1), <b>x</b>(2), ..., <b>x</b>(<i>N</i>) ],
+<br>
+<b>S</b> = [ <b>s</b>(1), <b>s</b>(2), ..., <b>s</b>(<i>N</i>) ],
+<br>
+<b>V</b> = [ <b>v</b>(1), <b>v</b>(2), ..., <b>v</b>(<i>N</i>) ];
+</center>
+
+<p>
+<b>V</b> is a matrix representing the additive noise,
+
+<p>
+and demixing model:
+
+<p>
+<center>
+<i>y</i><sub>j</sub>(<i>k</i>) = <b>w</b><sub>j</sub><sup>T</sup>
+<b>x</b>(<i>k</i>), &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<i>j</i> = 1, 2, ..., <i>N</i>,
+&nbsp;&nbsp;&nbsp;&nbsp; <i>k</i> = 1, 2, ..., <i>N</i>
+</center>
+
+<p>
+or
+
+<p>
+<center>
+<b>y</b>(<i>k</i>) = <b>W</b> <b>x</b>(<i>k</i>),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<i>k</i> =
+  1, 2, ..., <i>N</i>
+</center>
+
+<p>
+or
+
+<p>
+<center>
+<b>Y</b> = <b>W</b> <b>X</b>
+</center>
+
+<p>
+where
+
+<p>
+<center>
+<b>Y</b> = [ <b>y</b>(1), <b>y</b>(2), ..., <b>y</b>(<i>N</i>) ].
+</center>
+<CENTER>&nbsp;</CENTER>
+
+<p>
+<center>
+ <table border="1" cellspacing="1" cellpadding="1" align="center">
+
+ <tr valign="center">
+  <td align="middle"><b>&nbsp;&nbsp;Variable &nbsp;</b></td>
+  <td align="middle"><b>Description</b></td>
+  <td align="middle"><b>&nbsp; Dimension of matrix &nbsp;</b></td>
+ </tr>
+
+ <tr valign="center">
+  <td align="middle"><b>S</b></td>
+  <td>&nbsp;Sources or independent components</td>
+  <td><i>&nbsp;&nbsp;&nbsp; n</i> x <i>N</i></td>
+ </tr>
+
+ <tr valign="center">
+  <td align="middle"><b>X</b></td>
+  <td>&nbsp;Observations (sensor signals)</td>
+  <td><i>&nbsp;&nbsp;&nbsp; m</i> x <i>N</i> &nbsp;&nbsp;(<i>m</i> <font face=Symbol>&gt;=</font> <i>n</i>)</td>
+ </tr>
+
+ <tr valign="center">
+  <td align="middle"><b>Y</b></td>
+  <td>&nbsp;Estimated sources or independent components&nbsp;</td>
+  <td><i>&nbsp;&nbsp;&nbsp; n</i> x <i>N</i></td>
+ </tr>
+
+ <tr valign="center">
+  <td align="middle"><b>H</b></td>
+  <td>&nbsp;Mixing matrix</td>
+  <td><i>&nbsp;&nbsp;&nbsp; m</i> x <i>m</i> &nbsp; or &nbsp;&nbsp; <i>n</i> x <i>m</i></td>
+ </tr>
+
+ <tr valign="center">
+  <td align="middle"><b>W</b></td>
+  <td>&nbsp;Demixing matrix</td>
+  <td><i>&nbsp;&nbsp;&nbsp; m</i> x <i>n</i> &nbsp;&nbsp; or &nbsp;&nbsp; <i>n</i> x <i>n</i></td>
+ </tr>
+
+ <tr valign="center">
+  <td align="middle"><b>G</b></td>
+  <td>&nbsp;Global (mixing-demixing) matrix</td>
+  <td>&nbsp;&nbsp;&nbsp; <i>m</i> x
+      <i>n</i>&nbsp;&nbsp; &nbsp;or&nbsp;&nbsp; &nbsp;<i>n</i> x
+    <i>n</i></td>
+ </tr>
+
+ </table>
+<h6><b>Table 1</b> Basic variables used in ICALAB</h6>
+</center>
+
+<p>
+<b>Remark:</b> In this version  some variables are non-capitalized (<b>s</b>, <b>x</b>, <b>y</b>).
+
+<p>
+<b>Remark:</b> Some algorithms automatically detect the number of sources
+and reduce the number of outputs to <i>n</i>. The other algorithms assume that
+the demixing matrix <b>W</b> is an <i>m</i> x <i>m</i> square matrix
+(see the <a href=#book">Book</a> for explanation).
+
+
+
+<a name="deflation_procedure"></a>
+<h2>Deflation</h2>
+
+<p>
+After extracting the independent components or performing blind separation
+of signals (from the mixture), you can discard some of the components and then project
+the remaining components back to the sensor domain. This procedure is called
+deflation and allows you to remove the unnecessary (or undesirable)
+components that are hidden  in the mixture (or overlapped data).  In
+other  words, the deflation  procedure allows you to extract and remove one or more
+independent  components  (or uncorrelated  sources) from the mixture
+<b>x</b>(<i>k</i>). To perform this operation, open the <i>Deflation procedure</i>
+window by clicking on the <tt>DEFLATION</tt> button in the main <b>ICALAB</b>
+window. The  <tt> DEFLATION</tt> button becomes activated only after estimation
+of the demixing matrix <b>W</b> is completed using any of the built-in or
+user-defined  algorithms.
+
+<p>
+<center>
+<a href="help/icalab2d_p20.gif">
+<img SRC="help/icalab2d_p20_small.gif" ALT="Components before deflation" BORDER=0 width="440" height="442"></a>
+<h6><b>Fig. 15</b> Window illustrating the selection of deflation procedure
+(post-processing). Please click on the <tt>DEFLATION</tt> button to start the deflation procedure,
+in order to enhance or "clean" images or to remove some undesirable components.</h6>
+</center>
+
+<p>
+The deflation procedure is carried out in two steps.
+
+<ol>
+  <li>In the first step, the selected algorithm  estimates the demixing
+  matrix <b>W</b> and then performs the decomposition of observations
+  into independent components by <b>y</b>(<i>k</i>) = <b>W</b>
+  <b>x</b>(<i>k</i>) (while all pixels are projected).
+
+  <li>In the second step, the deflation algorithm eliminates one or more
+  components from the vector <b>y</b>(<i>k</i>) and then performs the
+  back-projection
+  <b>x</b><sub><b>r</b></sub> = <b>W</b><sup>+</sup>
+  <b>y</b><sub><b>r</b></sub>(<i>k</i>), where <b>x<sub>r</sub></b> is a vector of
+  reconstructed sensor images,
+  <b>W</b><sup>+</sup> = <b>H</b><sub>estim</sub> is a generalized
+  pseudo inverse matrix
+  of the estimated demixing matrix <b>W</b>, and <b>y</b><sub><b>r</b></sub>
+  (<i>k</i>)
+  is the vector obtained from the vector <b>y</b>(<i>k</i>) after
+  removal of all the
+  undesirable components (i.e., by replacing them with zeros).
+  In the special case, when the number of sources is equal to the number of
+  sensors
+  and the number of outputs, we can use inverse matrix <b>W</b><sup>-1</sup>
+  instead of <b>W</b><sup>+</sup>.
+
+  <p>
+  In batch format, the reconstruction procedure can be written as
+
+  <p>
+  <center>
+  <b>X<sub>r</sub></b> = <b>W</b><sup>+</sup> <b>Y<sub>r</sub></b>
+  </center>
+
+  <p>
+  where
+
+  <p>
+  <b>X<sub>r</sub></b> = [ <b>x</b><sub><b>r</b></sub>(1), <b>x</b><sub><b>r</b></sub>(2), ..., <b>x</b><sub><b>r</b></sub>(<i>N</i>) ] - reconstructed sensor images,
+
+  <p>
+  <b>Y<sub>r</sub></b> = [ <b>y</b><sub><b>r</b></sub>(1), <b>y</b><sub><b>r</b></sub>(2), ..., <b>y</b><sub><b>r</b></sub>(<i>N</i>) ] - reduced (selected or filtered) independent components.</li>
+</ol>
+
+<p>
+<center>
+<a href="help/icalab2d_p7.gif">
+<img SRC="help/icalab2d_p7_small.gif" ALT="Components before deflation" BORDER=0 width="400" height="328"></a>
+<h5>(a)</h5>
+<br>
+<a href="help/icalab2d_p8.gif">
+<img SRC="help/icalab2d_p8_small.gif" ALT="Components after deflation" BORDER=0 width="400" height="328"></a>
+<h5>(b)</h5>
+<h6><b>Fig. 16</b> (a) Window illustrating how to perform deflation.
+(b) Left plots show the independent components or separated images
+and the right plots show the reconstructed or enhanced
+images after eliminating undesirable components. In this example,
+only the last component was removed.</h6>
+</center>
+
+<p>
+In the deflation procedure, you can eliminate the undesirable components
+by clicking on them in the left plane. In general, you may want to discard
+more than one component by choosing specific components, representing
+for example noise, artifacts or undesirable interference.
+After selecting the appropriate components you can perform
+deflation by pressing the button <tt>Do deflation</tt>.
+An example of removing a component (image no 9) is shown
+in the Fig. 16.
+
+<p>
+Note that the deflation procedure may be slow for large data sets.
+
+<p>
+After completing the deflation procedure, the reconstructed sensor signals
+can be saved for further processing by clicking on the
+<tt>Save results</tt> button.
+This allows you to process reconstructed sensor signals by applying the
+same or different ICA/BSS/BSE algorithms. For example, in the first stage you can
+apply a second-order statistics BSS algorithm to recover sources with temporal
+structures. In the second stage, you may use any higher-order statistics ICA algorithm to
+recover independent components.
+
+<p>
+In the same way, you can save the reconstructed images obtained by the deflation procedure.
+The reconstructed data can be saved in <code>name_XR.mat</code> file.
+
+<h2>Exit from ICALAB</h2>
+
+<p>
+It is recommended that one exit from the ICALAB program by clicking
+on the <tt>EXIT</tt> button in the main program window below:
+
+<p>
+<center>
+<A href="help/icalab2d_p16.gif">
+<IMG alt="Exit" src="help/icalab2d_p16_small.gif" border=0 width="440" height="442"></A>
+<h6><b>Fig. 17</b> Window illustrating how to exit from program. Please click on
+the <tt>EXIT</tt> button to leave the program.</h6>
+</center>
+
+
+
+<p>
+<br>
+<hr>
+<a name="algorithms"></a>
+<h1>Algorithms in ICALAB for Image Processing</h1>
+
+<p>
+<hr width="50%" align="left">
+<p>
+Algorithms <b>SANG</b>, <b>NG-FICA</b>, <b>NG-OnLine</b>, <b>ERICA</b>
+belong to the family of
+natural gradient (NG) algorithms and are described in detail in Chapters 6 - 8.
+
+<p>
+The algorithms have been originally presented in the following papers:
+
+<ol>
+   <li>S. Amari, A. Cichocki, and H.H. Yang,
+       <a href="http://www.bsp.brain.riken.jp/ICApub/ACYnips95.pdf"><i>A new learning
+       algorithm for blind signal separation</i></a>, in Advances in Neural Information
+       Processing Systems, NIPS-1995, Vol. 8, pp. 757-763. MIT Press: Cambridge,
+       MA, 1996. </li>
+   <li>S. Amari and A. Cichocki,
+       <a href="http://www.bsp.brain.riken.jp/ICApub/Amari98procieee.pdf"><i>Adaptive
+       blind signal processing - neural network approaches</i></a>, Proceedings IEEE, Vol. 86, pp.
+       1186-1187, 1998.</li>
+   <li>A. Cichocki, R. Unbehauen and E. Rummert,
+       <i><a href="http://www.bsp.brain.riken.jp/ICApub/bss94e.pdf">Robust
+       learning algorithm for blind separation of signals</a></i>,
+       Electronics Letters, Vol. 30, No.17, 18th August 1994, pp. 1386-1387.</li>
+   <li>A. Cichocki and R. Unbehauen, <i><a href="http://www.bsp.brain.riken.jp/ICApub/ieeeCS96.pdf">Robust
+       neural networks with on-line learning for blind identification and blind separation of sources</a></i>, IEEE Trans. on
+       Circuits and Systems - I: Fundamental Theory and Applications, Vol. 43, Nov. 1996 (submitted in June 1994),
+       pp. 894-906.</li>
+   <li>S. Choi, A. Cichocki, and S. Amari,
+       <a href="http://www.bsp.brain.riken.jp/ICApub/jvlsi2000.pdf"><i>Flexible
+       independent component analysis</i></a>, Journal of VLSI Signal Processing, Vol. 26, No.
+       1/2, pp. 25-38, 2000.</li>
+   <li>S. Cruces, L. Castedo, A. Cichocki,
+       <i><a href="http://www.bsp.brain.riken.jp/ICApub/NC02.pdf">Robust
+       blind source separation algorithms using cumulants</a></i>, Neurocomputing, vol. 49, pp. 87-118, 2002.
+   <li>S. Cruces, L. Castedo, A. Cichocki,
+       <a href="http://www.bsp.brain.riken.jp/ICApub/icassp2000.pdf"><i>Novel Blind Source Separation
+       Algorithms Using Cumulants</i></a>, IEEE International Conference on Acoustics,
+       Speech, and Signal Processing, Vol. V, pp. 3152-3155, Istanbul, Turkey,
+       June 2000.</li>
+   <li>L. Zhang, S. Amari and A. Cichocki,
+       <i><a href="http://www.bsp.brain.riken.jp/ICApub/ICA98.pdf">Natural
+       Gradient Approach to Blind Separation of Over- and Under-complete Mixtures</a></i>,
+       Proceedings of ICA'99, pp.455-460, Aussois, France, January 11-15, 1999.</li>
+   <li>L. Zhang, A. Cichocki and S. Amari,
+       <i><a href="http://www.bsp.brain.riken.jp/ICApub/IEEEspl99.pdf">Natural
+       Gradient Algorithm to Blind Separation of Overdetermined Mixture with Additive Noises</a></i>,
+       IEEE Signal Processing Letters, Vol.6, No. 11, pp. 293-295, 1999.</li>
+   <li>L. Zhang, S. Amari and A. Cichocki,
+       <i><a href="http://www.bsp.brain.riken.jp/ICApub/IW2.pdf">Equi-convergence
+       Algorithm for blind separation of sources with arbitrary distributions</a></i>,
+       LNCS 2085, J. Mira &amp; A. Prieto (Eds), Springer, pp. 826-833, 2001.</li>
+   <li>A. Cichocki and P. Georgiev, <i>
+   <a href="http://www.bsp.brain.riken.jp/publications/2003/CichockiGeIEICE.pdf">
+       Blind Source Separation Algorithms with Matrix Constraints</a></i> , <i>IEICE
+       Transactions on Information and Systems</i>, invited paper, Special Session
+       on Independent Component Analysis and Blind Source Separation. vol. E86-A,
+       No.1, March 2003.</li>
+</ol>
+
+<p>&nbsp;</p>
+
+<p>
+The wide class of NG algorithms can be represented in a general form as
+
+<p>
+<center>
+<b>W</b>(<i>l</i>+1) = <b>W</b>(<i>l</i>) +
+<img src="help/eta_bold.gif" align="absmiddle" width="17" height="23">(<i>l</i>) [ <b>D</b> -
+&lt;<b>F</b>(<b>y</b>)&gt;] <b>W</b>(<i>l</i>)
+</center>
+
+<p>
+where <img src="help/eta_bold.gif" align="absmiddle" width="17" height="23"> is a
+symmetric positive definite matrix, typically,
+<img src="help/eta_bold.gif" align="absmiddle" width="17" height="23"> =
+<img src="help/eta.gif" align="absmiddle" width="16" height="23"><sub>0</sub> <b>I</b>,
+
+<p>
+<b>F</b>(<b>y</b>) is a suitably chosen <i>n</i> by <i>n</i> matrix of nonlinearly transformed
+output signals, typically with entries
+
+<p>
+<center>
+<i>f<sub>ij</sub></i> = <i>f</i>(<i>y<sub>i</sub></i>) <i>y<sub>j</sub></i>
+</center>
+
+<p>
+or
+
+<p>
+<center>
+<i>f<sub>ij</sub></i> = <i>f</i>(<i>y<sub>i</sub></i>) <i>g</i>(</i>y<sub>j</sub></i>),
+</center>
+
+<p>
+and
+
+<p>
+<center>
+<b>D</b> = {<i>d</i><sub>11</sub>, <i>d</i><sub>22</sub>, ..., <i>d</i><sub><i>nn</i></sub>}
+</center>
+
+<p>
+is a diagonal positive definite matrix, typically with entries
+
+<p>
+<center>
+<i>d</i><sub><i>ii</i></sub> = 1
+</center>
+
+<p>
+or
+
+<p>
+<center>
+<i>d</i><sub><i>ii</i></sub> = &lt;<i>f</i>(<i>y</i><sub><i>i</i></sub>) <i>g</i>(<i>y</i><sub><i>j</i></sub>)&gt;.
+</center>
+
+
+
+
+<p>
+<hr width="50%" align="left">
+<a name="SANG"></a>
+<h3>SANG (Self Adaptive Natural Gradient algorithm with nonholonomic constraints)</h3>
+
+<p>
+SANG is a batch algorithm which can be represented in the following form:
+
+<p>
+<center>
+<b>W</b> <img src="help/larrow.gif" align="absmiddle" width="38" height="22"> <b>W</b> +
+<img src="help/eta_bold.gif" align="absmiddle" width="17" height="23">[<b>D</b> -
+&lt;<b>f</b>(<b>y</b>) <b>g</b><sup>T</sup>(<b>y</b>)&gt;] <b>W</b>
+</center>
+
+<p>
+where the entries of the diagonal matrix <b>D</b> satisfy the nonholonomic
+constraints, i.e.
+
+<p>
+<center>
+<i>d<sub>ii</sub></i> = &lt;<i>f</i>(<i>y</i><sub></i>i</i></sub>) <i>y</i><sub><i>i</i></sub>&gt;,
+&nbsp; &nbsp;
+<i>d<sub>ij</sub></i> = 0, &nbsp; &nbsp; &nbsp; for &nbsp; <i>i</i> &nbsp; not equal &nbsp; <i>j</i>.
+
+</center>
+
+<p>
+and the learning rate matrix
+<img src="help/eta_bold.gif" align="absmiddle" width="17" height="23"> is a diagonal matrix with entries
+
+<p>
+<center>
+<img src="help/eta.gif" align="absmiddle" width="16" height="23"><sub><i>ii</i></sub>= [<i>d<sub>ii</sub></i> + &lt; <i>f</i> ' (<i>y<sub>i</sub></i>) &gt;]<sup>-1</sup>.
+</center>
+
+<p>
+Main references:
+
+<ol>
+   <li>S. Amari, T. Chen and A. Cichocki, <i>Non-holonomic constraints in learning
+       blind source separation</i>, Progress in Connectionist-Based Information Systems,
+       Eds. N. Kasabov, ICONIP-97, New Zealand, Springer, Nov. 1997, Vol. I, pp. 633-636.</li>
+   <li>S. Amari, T. Chen and A. Cichocki, <i>Nonholonomic orthogonal learning
+       algorithms for blind source separation</i>, Neurocomputation, Vol. 12, 2000, pp. 1463-1484.
+   <li>A. Hyvärinen, J. Karhunen, and E. Oja,
+       <a href="http://www.cis.hut.fi/projects/ica/book/"><i>Independent Component Analysis</i></a>,
+       John Wiley, New York, 2001.</li>
+</ol>
+
+
+<p>
+<hr width="50%" align="left">
+<a name="NG-FICA"></a>
+<h3>NG-FICA (Natural Gradient - Flexible ICA)</h3>
+
+<p>
+The NG - FlexICA (Natural Gradient Flexible ICA) algorithm has been developed
+by S. Choi, A. Cichocki and S. Amari (with MATLAB implementation  by Seungjin Choi).
+
+<p>
+The main references are:
+
+<ol>
+   <li>S. Choi, A. Cichocki, and S. Amari,
+       <a href="http://www.bsp.brain.riken.jp/ICApub/jvlsi2000.pdf"><i>Flexible
+       independent component analysis</i></a>, Journal of VLSI Signal Processing,
+       Vol. 26, No. 1/2, pp. 25-38, 2000.</li>
+   <li>S. Choi, A. Cichocki, and S. Amari,
+       <a href="http://www.bsp.brain.riken.jp/ICApub/nnsp98_107.pdf"><i>Flexible
+       independent component analysis</i></a>, in Proc. of the 1998 IEEE Workshop on NNSP,
+       pp 83-92, Cambridge, UK, 1998.</li>
+</ol>
+
+<p>
+The algorithm is described in detail in Section 6.4.
+
+
+</p>
+
+
+
+<p>
+<hr width="50%" align="left">
+<a name="TICA"></a>
+<p><b><font size="4">TICA Algorithm</font></b> </p>
+<p>Thin algorithm for Independent Component Analysis (TICA) has been developed
+by Sergio Cruces and Andrzej Cichocki [1]. </p>
+<p>The TICA algorithm is able to extract simultaneously arbitrary number of
+components specified by the user. The algorithm is based on criteria that
+jointly perform maximization of several cumulants of the outputs and/or second
+order time delay covariance matrices. This employed contrast function combines
+the robustness of the joint approximate diagonalization techniques with the
+flexibility of the methods for blind signal extraction. Its maximization leads
+to hierarchical and simultaneous ICA extraction algorithms which are
+respectively based on the thin QR and thin SVD factorizations. The TICA
+algorithm can be regarded as hierarchical/simultaneous extensions of the fast
+fixed point algorithms [2] and has also close links to [3] and [4,5]. </p>
+<p>The main references are: </p>
+<ol>
+  <li>S. Cruces, A. Cichocki, <i>
+  <a href="http://www.bsp.brain.riken.jp/publications/2003/ICA03CrucesCich.pdf">
+  Combining blind source extraction with joint approximate diagonalization: Thin
+  Algorithms for ICA</a></i>, Proc. of the Fourth Symposium on Independent
+  Component Analysis and Blind Signal Separation, Japan, pp. 463-469, 2003.</li>
+  <li>A. Hyv&auml;rinen, E. Oja, <i>Fixed point algorithm for independent component
+  analysis</i>, Neural Computation, vol. 9, pp. 1482-1492, 1997. </li>
+  <li>L. De Lathauwer, P. Comon, B. De-Moor, J. Vandewalle, <i>Higher-order
+  power method - application in Independent Component Analysis</i>, Proc. of&nbsp;
+  NOLTA, 1995. </li>
+  <li>A. Belouchrani, K. Abel-Meraim, J. F. Cardoso, E. Moulines, <i>A blind
+  source separation technique using second-order statistics</i>, IEEE Trans. on
+  Signal Processing, vol. 45(2), pp. 434-444, 1997. </li>
+  <li>&nbsp;J. F. Cardoso, A. Souloumiac, <i>Blind beamforming for non Gaussian
+  signals</i>, IEE Proc.-F, vol. 140 (6), pp. 362-370, 1993. </li>
+</ol>
+<hr width="50%" align="left">
+<h3>ERICA - Equivariant Robust ICA - based on Cumulants</h3>
+
+<p>
+ERICA Algorithm - Equivariant Robust Independent Component Analysis algorithm
+(which is asymptotically equivariant in the presence of Gaussian noise)
+has been developed by Sergio Cruces, Luis Castedo and Andrzej Cichocki.
+
+<p>
+This algorithm separates the signals from <i>m</i> mixture of <i>n</i>
+sources (with non zero kurtosis) in the presence of Gaussian noise.
+
+<p>
+This algorithm is a quasi-Newton iteration that will converge to a saddle
+point with locally isotropic convergence, regardless of the distributions of sources.
+The use of prewhitening is not necessary for this algorithm to converge.
+
+<p>
+The main references are:
+
+<ol>
+   <li>S. Cruces, L. Castedo, A. Cichocki,
+       <i><a href="http://www.bsp.brain.riken.jp/ICApub/NC02.pdf">Robust
+       blind source separation algorithms using cumulants</a></i>, Neurocomputing, vol. 49, pp. 87-118, 2002.
+   <li>S. Cruces, L. Castedo, A. Cichocki,
+       <a href="http://www.bsp.brain.riken.jp/ICApub/icassp2000.pdf"><i>Novel Blind Source
+       Separation Algorithms Using Cumulants</i></a>, IEEE International Conference on
+       Acoustics, Speech, and Signal Processing, Vol. V, pp. 3152-3155, Istanbul,
+       Turkey, June 2000.</li>
+
+</ol>
+
+
+
+
+<p>
+<hr width="50%" align="left">
+<a name="SIMBEC"></a>
+<h3>SIMBEC - SIMultaneous Blind Extraction using Cumulants</h3>
+
+<p>
+SIMBEC algorithm (Simultaneous Blind signal Extraction using Cumulants)
+was implemented by Sergio Cruces, Andrzej Cichocki, and Shun-ichi Amari.
+
+<p>
+It performs simultaneous blind signal extraction of an arbitrary group of
+sources from a rather large number of observations. Amari proposed in [1]
+a gradient algorithm that optimizes the ML criteria on the Stiefel manifold
+and solves the problem when the approximate (or hypothetical) densities of
+the desired signals are a priori known. This algorithm [2-4] extends this
+result to other contrast functions that do not require explicit knowledge
+of the source densities. The necessary and sufficient local stability conditions
+of the algorithm are exploited to obtain fast convergence.
+
+<p>
+The main references are:
+
+<ol>
+   <li>S. Amari, <i>Natural Gradient Learning for over- and under-complete
+       bases in ICA</i>, Neural Computation, Vol. 11, pp. 1875-1883, 1999.</li>
+   <li>S. Cruces, A. Cichocki, S. Amari,
+       <a href="http://www.bsp.brain.riken.jp/ICApub/ICA2001.pdf"><i>Criteria for the
+       Simultaneous Blind Extraction of Arbitrary Groups of Sources</i></a>, in the 3rd
+       international conference on Independent Component Analysis and Blind Signal
+       Separation. San Diego, California, USA, 2001.</li>
+   <li>S. Cruces, A. Cichocki, S. Amari,
+       <a href="http://www.bsp.brain.riken.jp/ICApub/IWANN2001.pdf"><i>The Minimum Entropy
+       and Cumulant Based Contrast Functions for Blind Source Extraction</i></a>, in Lecture
+       Notes in Computer Science, Springer-Verlag, IWANN'2001, Vol. II, pp. 786-793,</li>
+   <li>S. Cruces, A. Cichocki, S. Amari,
+       <i><a href="http://www.bsp.brain.riken.jp/ICApub/SPL02.pdf">On a new
+       blind signal extraction algorithm: different criteria and stability analysis</a></i>,
+       IEEE Signal Processing Letters, vol. 9, no. 8, pp. 233-236, 2002.
+</ol>
+
+<p>
+The algorithm can extract an arbitrary group of sources specified by the user.
+
+
+
+
+<p>
+<hr width="50%" align="left">
+<a name="JADE-op"></a>
+<h3>JADE-op - Robust Joint Approximate Diagonalization of Eigen matrices (with
+optimized numerical procedures)</h3>
+
+<p>
+The JADE algorithm has been originally developed and implemented by Jean-Francois
+Cardoso and Antoine Souloumiac.
+
+<p>
+The main references are:
+
+<ol>
+   <li>J.-F. Cardoso and A. Souloumiac, <i><a href="http://www.bsp.brain.riken.jp/ICApub/iee.pdf">Blind
+       beam-forming for non Gaussian signals</a></i>, IEE Proceedings-F, pp. 362-370, Vol. 140, 1993.</li>
+   <li>J.-F. Cardoso and Antoine Souloumiac,
+       <i><A href="http://www.bsp.brain.riken.jp/ICApub/siam_note.pdf">Jacobi
+       angles for simultaneous diagonalization</A></i>, In <i>SIAM Journal of
+       Matrix Analysis and Applications</i>, Vol. 17, No 1, pp. 161-164, Jan. 1996.</li>
+
+   <p>
+       The related references are:
+   <p>
+
+   <li>J.-F. Cardoso,
+       <i><A href="http://www.bsp.brain.riken.jp/ICApub/eusipco94_perf.pdf">On the performance
+       of orthogonal source separation algorithms</A></i>, In Proc. EUSIPCO, pp. 776-779,
+       Edinburgh, September 1994.
+   <li>J.-F. Cardoso,
+       <i><A href="http://www.bsp.brain.riken.jp/ICApub/neuralcomp_2ppf.pdf">High-order contrasts
+       for independent component analysis</A></i>, Neural Computation, Vol. 11, no 1,
+       pp. 157-192, Jan. 1999.</li>
+</ol>
+
+<p>
+In the ICALAB package, we have used a modified version of this algorithm with reduced
+number of eigen matrices as described in Chapter 4. We have also optimized some
+numerical procedures in MATLAB to speed up the algorithm.
+This algorithm is free of any adjustable parameters (there is no parameter tuning).
+
+<p>
+The JADE-opt has been modified and implemented by Y. Terazono.
+
+
+
+
+
+<p>
+<hr width="50%" align="left">
+<a name="FPICA"></a>
+<h3>FPICA (Fixed-Point ICA)</h3>
+
+<p>
+The Fixed Point or Fast ICA algorithm has been originally developed
+by Aapo Hyvärinen and Erkki Oja:
+
+<ol>
+   <li>A. Hyvärinen and E. Oja,
+       <a href="http://www.bsp.brain.riken.jp/ICApub/NC97.pdf"><i>A Fast Fixed-Point
+       Algorithm for Independent Component Analysis</i></a>, Neural Computation, 9(7):1483-1492, 1997.
+   <li>A. Hyvärinen and E. Oja,
+       <a href="http://www.bsp.brain.riken.jp/ICApub/NN00.pdf"><i>Independent Component Analysis: Algorithms
+       and Applications</i></a>, Neural Networks, 13(4-5):411-430, 2000.
+   <li>A. Hyvärinen, <a href="http://www.bsp.brain.riken.jp/ICApub/TNN99.pdf"><i>Fast and Robust
+       Fixed-Point Algorithms for Independent Component Analysis</i></a>, IEEE Transactions on Neural
+       Networks 10(3):626-634, 1999.</li>
+</ol>
+
+<p>
+In the ICALAB package, we have implemented the  FPICA sequential blind extraction
+algorithm which extracts independent non-Gaussian distributed sources one by
+one as described in Chapter 5, Section 5.2.4.
+
+
+
+
+<p>
+<hr width="50%" align="left">
+<a name="Pearson OPT"></a>
+<h3>Pearson opt. (Pearson system optimized)</h3>
+
+<p>
+Pearson system is an HOS ICA algorithm originally developed by Juha Karvanen,
+Jan Eriksson and Visa Koivunen:
+
+<ol>
+   <li>J. Karvanen and V. Koivunen, <i>Blind separation methods based
+       on Pearson system and its extensions</i>, Signal Processing, 2002</li>
+   <li>J. Karvanen and V. Koivunen, <i>Blind Separation of Communication
+       Signals Using Pearson System Based Method</i>, Proceedings of The Thirty-Fifth
+       Annual Conference on Information Sciences and Systems, Volume II,
+       pp. 764-767, Baltimore, USA, March 2001.
+   <li>J. Karvanen, J. Eriksson, and V. Koivunen,
+       <a href="http://www.bsp.brain.riken.jp/ICApub/ICA2000_jk.pdf"><i>Pearson system based
+       method for blind separation</i></a>, Proceedings of Second International
+       Workshop on Independent Component Analysis and Blind Signal Separation,
+       Helsinki 2000, pp. 585-590.</li>
+   <li>A. Hyvärinen, J. Karhunen, and E. Oja,
+       <a href="http://www.cis.hut.fi/projects/ica/book/"><i>Independent Component
+       Analysis</i></a>, John Wiley, New York, 2001.</li>
+</ol>
+
+<p>
+The Pearson system is employed for modeling a wide class of both symmetric and
+asymmetric source distributions.
+
+<p>
+In fact, the algorithm is similar to the natural gradient (NG) and its optimized parallel
+version Fast ICA algorithm for maximum likelihood estimation. The main difference
+is the selection of an activation function <i>f</i>(<i>y</i>) (score function)
+on the basis of estimated on-line
+second, third and fourth order moments (see chapter 6, section 6.4).
+
+
+
+<p>
+<hr width="50%" align="left">
+<a name="BSS_SVD"></a>
+<h3>BSS SVD (SOS BSS algorithm based on SVD)</h3>
+
+<p>
+The BSS SVD algorithm is similar to the
+AMUSE algorithm (see the <a href="http://www.bsp.brain.riken.jp/ICAbookPAGE/">Book</a>).
+However, it uses a different
+prewhitening procedure and singular value decomposition (SVD) instead of
+ the symmetric EVD for a single time-delayed covariance matrix. The algorithm is very
+fast but unfortunately, sensitive to additive noise.
+
+<p>
+See Chapter 4 and the related references:
+
+<ol>
+   <li>R. Szupiluk, <i>Blind Source Separation for Noisy Signals</i>, Ph.D. Thesis
+       (in Polish), Supervisor A. Cichocki, Warsaw University of Technology, Poland, June 2002.</li>
+   <li>R. Szupiluk, A. Cichocki, <i>Blind signal separation using second order
+       statistics</i>, Proc. of SPETO 2001, pp. 485-488.</li>
+</ol>
+
+<p>
+
+
+
+<p>
+<hr width="50%" align="left">
+<a name="SOBI-RO"></a>
+<h3>SOBI-RO - Robust SOBI with Robust Orthogonalization</h3>
+
+<p>
+The SOBI-RO (Robust Second Order Blind Identification with Robust Orthogonalization)
+ algorithm is described in detail in Chapter 4 (Section 4.4).
+
+<p>
+The SOBI-RO algorithm employs the robust orthogonalization preprocessing
+as described in Section 4.3.1.
+
+<p>
+The related references are:
+
+<ol>
+   <li>A. Belouchrani, K. Abed-Meraim, J.F. Cardoso, and E. Moulines,
+       <a href="http://www.bsp.brain.riken.jp/ICApub/icdsp93.pdf"><i>Second-order blind separation
+       of temporally correlated sources</i></a>, in
+       Proc. Int. Conf. on Digital Sig. Proc., (Cyprus), pp. 346-351, 1993.</li>
+   <li>A. Belouchrani, and A. Cichocki,
+       <a href="http://www.bsp.brain.riken.jp/ICApub/A00-2050.pdf"><i>Robust whitening
+       procedure in blind source separation context</i></a>, Electronics Letters, Vol. 36,
+       No. 24, 2000, pp. 2050-2053.</li>
+   <li>S. Choi, A. Cichocki and A. Belouchrani,
+       <a href="http://www.bsp.brain.riken.jp/ICApub/seons.pdf"><i>Blind separation
+       of nonstationary sources in noisy mixtures</i></a>, Journal of VLSI Signal
+       Processing 2002 (in print).</li>
+</ol>
+
+
+<p>
+<hr width="50%" align="left">
+<a name="SONS"></a>
+<h3>SONS - Second Order Nonstationary Source Separation</h3>
+
+<p>
+SONS (Second Order Nonstationary Source Separation) algorithm is described
+in detail in Chapter 4 (Section 4.4.1).
+
+<p>
+The algorithm allows you to perform both ICA (for arbitrary distributed
+nonstationary sources with temporal structures) and BSS (for colored sources
+with different spectra), depending on the time delays, the
+number of time windows, and the size of each window.
+
+<p>
+In the <i>Advanced option</i>, you can select these parameters to optimize the
+algorithm for a specific problem.
+
+<p>
+If you want to obtain smooth signals the sub-window should have 500 samples or more.
+In order to achieve sparse independent signals choose a short sub-window in the
+range 10-50 samples.
+
+<p>
+The SONS algorithm has been developed by S. Choi and A. Cichocki and presented
+in the following:
+
+<ol>
+   <li>S. Choi and A. Cichocki,
+       <a href="http://www.bsp.brain.riken.jp/ICApub/el_apr2000.pdf"><i>Blind
+       separation of nonstationary sources in noisy mixtures</i></a>, Electronics
+       Letters, Vol. 36, pp. 848-849, April 2000.
+   <li>S. Choi and A. Cichocki,
+       <a href="http://www.bsp.brain.riken.jp/ICApub/choicia_nnsp2000.pdf"><i>Blind
+       separation of nonstationary and temporally correlated sources from noisy mixtures</i></a>, IEEE
+       Workshop on Neural Networks for Signal Processing, NNSP'2000, pp. 405-414,
+       Sydney, Australia, Dec. 11-13, 2000.
+
+   <p>
+       Related references are:
+   <p>
+
+   <li>S. Choi, A. Cichocki, and A. Belouchrani,
+       <a href="http://www.bsp.brain.riken.jp/ICApub/ssp2001.pdf"><i>Blind
+       separation of second-order nonstationary and temporally colored sources</i></a>,
+       Proceedings of the 11th IEEE Signal Processing Workshop on Statistical Signal
+       Processing, pp. 444-447, Singapore, 2001.
+   <li>S. Choi, A. Cichocki, and A. Belouchrani,
+       <a href="http://www.bsp.brain.riken.jp/ICApub/seons.pdf"><i>Second order
+       nonstationary source separation</i></a>, Journal of VLSI Signal Processing, 2002.
+   <li>D.-T. Pham and J.-F. Cardoso,
+       <i><A href="http://www.bsp.brain.riken.jp/ICApub/nonstatSP.pdf">Blind separation
+       of instantaneous mixtures of non stationary sources</A></i>, IEEE Trans.
+       Signal Processing, Vol. 49, No 9, pp. 1837-1848.</li>
+</ol>
+
+
+
+<p>
+<hr width="50%" align="left">
+<a name="user_alg"></a>
+<a name="user_algk"></a>
+<a name="user_alg1"></a>
+<a name="user_alg2"></a>
+<a name="user_alg3"></a>
+<a name="user_alg4"></a>
+<a name="user_alg5"></a>
+<a name="user_alg6"></a>
+<a name="user_alg7"></a>
+<a name="user_alg8"></a>
+<a name="user_alg9"></a>
+<a name="user_alg10"></a>
+<h3>User algorithms</h3>
+
+<p>
+You can integrate your own algorithms or any ICA/BSS, BSE algorithm available
+in MATLAB within the ICALAB package, by simply inserting the code(s) in each of:
+<code>user_alg1.m</code> - <code>user_alg10.m</code> files.
+
+<p>
+<b>Note:</b> the algorithm must be coded in such a way that it returns only one single variable:
+demixing matrix <b>W</b>.
+
+<p>
+If the algorithm estimates the mixing matrix <b>H</b>, you may use
+<b>W</b> = pinv(<b>H</b>).
+
+<p>
+<hr>
+
+<a name="benchmarks"></a>
+<H2>BENCHMARKS</H2>
+
+<p>
+The directory <code>BENCHMARKS</code> consists of a collection of color and
+grayscale images with various resolutions.
+
+<p>
+The images are saved individually and all collected in one <code>MATLAB</code> file
+<code>NAME.mat</code> in order to save time during loading.
+
+<p>
+You can download all benchmarks in matlab format (*mat),
+files tared and gzipped to one big file:
+<A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/benchmarks_2d.tgz">benchmarks_2d.tgz</a> (4.42MB).
+<p>
+The most interesting benchmarks are briefly described below.
+
+
+<H3>Two-dimensional sine waves</H3>
+
+<h4>sin2d</h4>
+
+<p>
+This color and grayscale benchmark contains 12 two-dimensional
+sine wave sources as illustrated in Fig. 1B.
+
+<p>
+<TABLE BORDER=1 CELLSPACING=0 CELLPADDING=4 align=center>
+	<TR>
+		<TD align="center">mode</TD>
+		<TD align="center">matlab files (*.mat)</TD>
+		<TD align="center">gzipped matlab files (*.mat.gz)</TD>
+		<TD align="center">tared and gzipped tiff files (*.tgz)</TD>
+	</TR>
+	<TR>
+		<TD>color images</TD>
+		<TD><A href="data/sin2d_128x128_color.mat">sin2d_128x128_color.mat</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/sin2d_128x128_color.mat.gz">sin2d_128x128_color.mat.gz</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/sin2d_128x128_color.tgz">sin2d_128x128_color.tgz</a></TD>
+	</TR>
+	<TR>
+		<TD>grayscale images</TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/sin2d_128x128_gray.mat">sin2d_128x128_gray.mat</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/sin2d_128x128_gray.mat.gz">sin2d_128x128_gray.mat.gz</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/sin2d_128x128_gray.tgz">sin2d_gray_128x128.tgz</a></TD>
+	</TR>
+</TABLE>
+
+
+
+<p>
+<TABLE cellSpacing=5 cellPadding=5 align=center border=0>
+  <TR>
+    <TD align="middle"><i>3D view</i></TD>
+    <TD align="middle"><i>color image</i></TD>
+    <TD align="middle"><i>grayscale image</i></TD>
+  </TR>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_01_3D.jpg" width="280" height="210"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_01_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_01_gray.jpg" width="128" height="128"></TD>
+  </TR>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_03_3D.jpg" width="280" height="210"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_03_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_03_gray.jpg" width="128" height="128"></TD>
+  </TR>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_05_3D.jpg" width="280" height="210"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_05_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_05_gray.jpg" width="128" height="128"></TD>
+  </TR>
+</TABLE>
+
+
+<h6><b>Fig. 1B</b> Two-dimensional sine waves (sin2d)</h6><p></p>
+
+
+<p>
+<TABLE cellSpacing=5 cellPadding=5 align=center border=0>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_01_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_03_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_05_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_07_color.jpg" width="128" height="128"></TD>
+  </TR>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_09_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_11_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_13_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_15_color.jpg" width="128" height="128"></TD>
+  </TR>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_17_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_19_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_21_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_23_color.jpg" width="128" height="128"></TD>
+  </TR>
+</TABLE>
+
+
+<h6><b>Fig. 2B</b> Full set of color two-dimensional sine waves (sin2d)</h6><p></p>
+
+
+<p>
+<TABLE cellSpacing=5 cellPadding=5 align=center border=0>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_01_gray.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_03_gray.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_05_gray.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_07_gray.jpg" width="128" height="128"></TD>
+  </TR>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_09_gray.jpg" width="128" height="128"></TD>
+    <TD align="middle">    <img src="help/benchmarks/sin/sin2d_128x128_11_gray.jpg" width="128" height="128"></TD>
+    <TD align="middle">    <img src="help/benchmarks/sin/sin2d_128x128_13_gray.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_15_gray.jpg" width="128" height="128"></TD>
+  </TR>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_17_gray.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_19_gray.jpg" width="128" height="128"></TD>
+    <TD align="middle">    <img src="help/benchmarks/sin/sin2d_128x128_21_gray.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin2d_128x128_23_gray.jpg" width="128" height="128"></TD>
+  </TR>
+</TABLE>
+
+
+<h6><b>Fig. 3B</b> Full set of grayscale two-dimensional sine waves (sin2d)</h6><p></p>
+
+
+<h4>FWRsin2d</h4>
+
+<p>
+These color and grayscale benchmarks are similar to the <i>sin2d</i> benchmarks,
+but the 2-D sine waves are full wave rectified (see Fig. 4B).
+
+
+<p>
+<TABLE BORDER=1 CELLSPACING=0 CELLPADDING=4 align=center>
+	<TR>
+		<TD align="center">mode</TD>
+		<TD align="center">matlab files (*.mat)</TD>
+		<TD align="center">gzipped matlab files (*.mat.gz)</TD>
+		<TD align="center">tared and gzipped tiff files (*.tgz)</TD>
+	</TR>
+	<TR>
+		<TD align="center">color images</TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/FWRsin2d_128x128_color.mat">FWRsin2d_128x128_color.mat</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/FWRsin2d_128x128_color.mat.gz">FWRsin2d_128x128_color.mat.gz</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/FWRsin2d_128x128_color.tgz">FWRsin2d_128x128_color.tgz</a></TD>
+	</TR>
+	<TR>
+		<TD align="center">grayscale images</TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/FWRsin2d_128x128_gray.mat">FWRsin2d_128x128_gray.mat</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/FWRsin2d_128x128_gray.mat.gz">FWRsin2d_128x128_gray.mat.gz</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/FWRsin2d_128x128_gray.tgz">FWRsin2d_gray_128x128.tgz</a></TD>
+	</TR>
+</TABLE>
+
+
+<p>
+<TABLE cellSpacing=5 cellPadding=5 align=center border=0>
+<TR>
+    <TD align="middle"><i>3D view</i></TD>
+    <TD align="middle"><i>color image</i></TD>
+    <TD align="middle"><i>grayscale image</i></TD>
+  </TR>
+<TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/FWRsin2d_128x128_01_3D.jpg" width="280" height="210"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/FWRsin2d_128x128_01_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/FWRsin2d_128x128_01_gray.jpg" width="128" height="128"></TD>
+  </TR>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/FWRsin2d_128x128_03_3D.jpg" width="280" height="210"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/FWRsin2d_128x128_03_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/FWRsin2d_128x128_03_gray.jpg" width="128" height="128"></TD>
+  </TR>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/FWRsin2d_128x128_05_3D.jpg" width="280" height="210"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/FWRsin2d_128x128_05_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/FWRsin2d_128x128_05_gray.jpg" width="128" height="128"></TD>
+  </TR>
+</TABLE>
+
+<h6><b>Fig. 4B</b> Full wave rectified two-dimensional sine waves (FWRsin2d)</h6><p></p>
+
+
+<h4>HWRsin2d</h4>
+
+<p>
+These color and grayscale benchmarks are similar to the benchmarks <i>sin2d</i>,
+but the two-dimensional sine waves are half-wave rectified so the images become
+more sparsely distributed (see Fig. 5B).
+
+<p>
+<TABLE BORDER=1 CELLSPACING=0 CELLPADDING=4 align=center>
+	<TR>
+		<TD align="center">mode</TD>
+		<TD align="center">matlab files (*.mat)</TD>
+		<TD align="center">gzipped matlab files (*.mat.gz)</TD>
+		<TD align="center">tared and gzipped tiff files (*.tgz)</TD>
+	</TR>
+	<TR>
+		<TD align="center">color images</TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/HWRsin2d_128x128_color.mat">HWRsin2d_128x128_color.mat</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/HWRsin2d_128x128_color.mat.gz">HWRsin2d_128x128_color.mat.gz</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/HWRsin2d_128x128_color.tgz">HWRsin2d_128x128_color.tgz</a></TD>
+	</TR>
+	<TR>
+		<TD align="center">grayscale images</TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/HWRsin2d_128x128_gray.mat">HWRsin2d_128x128_gray.mat</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/HWRsin2d_128x128_gray.mat.gz">HWRsin2d_128x128_gray.mat.gz</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/HWRsin2d_128x128_gray.tgz">HWRsin2d_gray_128x128.tgz</a></TD>
+	</TR>
+</TABLE>
+
+
+<p>
+<TABLE cellSpacing=5 cellPadding=5 align=center border=0>
+  <TR>
+    <TD align="middle"><i>3D view</i></TD>
+    <TD align="middle"><i>color image</i></TD>
+    <TD align="middle"><i>grayscale image</i></TD>
+  </TR>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/HWRsin2d_128x128_01_3D.jpg" width="280" height="210"></TD>
+    <TD align="middle">    <img src="help/benchmarks/sin/HWRsin2d_128x128_01_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/HWRsin2d_128x128_01_gray.jpg" width="128" height="128"></TD>
+  </TR>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/HWRsin2d_128x128_03_3D.jpg" width="280" height="210"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/HWRsin2d_128x128_03_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/HWRsin2d_128x128_03_gray.jpg" width="128" height="128"></TD>
+  </TR>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/HWRsin2d_128x128_05_3D.jpg" width="280" height="210"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/HWRsin2d_128x128_05_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/HWRsin2d_128x128_05_gray.jpg" width="128" height="128"></TD>
+  </TR>
+</TABLE>
+
+<h6><b>Fig. 5B</b> Half wave rectified two-dimensional sine waves (HWRsin2d)</h6><p></p>
+
+
+<h4>sin1d</h4>
+
+<p>
+These benchmarks are similar to the above benchmarks, but sine waves are
+one-dimensional (see Figs 6B, 7B, 8B).
+
+<p>
+<TABLE BORDER=1 CELLSPACING=0 CELLPADDING=4 align=center>
+	<TR>
+		<TD align="center">type</TD>
+		<TD align="center">mode</TD>
+		<TD align="center">matlab files (*.mat)</TD>
+		<TD align="center">gzipped matlab files (*.mat.gz)</TD>
+		<TD align="center">tared and gzipped tiff files (*.tgz)</TD>
+	</TR>
+	<TR>
+		<TD rowspan=2 align="center">sin1d</TD>
+		<TD align="center">color images</TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/sin1d_128x128_color.mat">sin1d_128x128_color.mat</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/sin1d_128x128_color.mat.gz">sin1d_128x128_color.mat.gz</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/sin1d_128x128_color.tgz">sin1d_128x128_color.tgz</a></TD>
+	</TR>
+	<TR>
+		<TD align="center">grayscale images</TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/sin1d_128x128_gray.mat">sin1d_128x128_gray.mat</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/sin1d_128x128_gray.mat.gz">sin1d_128x128_gray.mat.gz</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/sin1d_128x128_gray.tgz">sin1d_gray_128x128.tgz</a></TD>
+	</TR>
+	<TR>
+		<TD rowspan=2 align="center">full-rectified sin1d</TD>
+		<TD align="center">color images</TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/FWRsin1d_128x128_color.mat">FWRsin1d_128x128_color.mat</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/FWRsin1d_128x128_color.mat.gz">FWRsin1d_128x128_color.mat.gz</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/FWRsin1d_128x128_color.tgz">FWRsin1d_128x128_color.tgz</a></TD>
+	</TR>
+	<TR>
+		<TD align="center">grayscale images</TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/FWRsin1d_128x128_gray.mat">FWRsin1d_128x128_gray.mat</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/FWRsin1d_128x128_gray.mat.gz">FWRsin1d_128x128_gray.mat.gz</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/FWRsin1d_128x128_gray.tgz">FWRsin1d_gray_128x128.tgz</a></TD>
+	</TR>
+	<TR>
+		<TD rowspan=2 align="center">half-rectified sin1d</TD>
+		<TD align="center">color images</TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/HWRsin1d_128x128_color.mat">HWRsin1d_128x128_color.mat</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/HWRsin1d_128x128_color.mat.gz">HWRsin1d_128x128_color.mat.gz</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/HWRsin1d_128x128_color.tgz">HWRsin1d_128x128_color.tgz</a></TD>
+	</TR>
+	<TR>
+		<TD align="center">grayscale images</TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/HWRsin1d_128x128_gray.mat">HWRsin1d_128x128_gray.mat</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/HWRsin1d_128x128_gray.mat.gz">HWRsin1d_128x128_gray.mat.gz</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/HWRsin1d_128x128_gray.tgz">HWRsin1d_gray_128x128.tgz</a></TD>
+	</TR>
+</TABLE>
+
+<p>
+<TABLE cellSpacing=5 cellPadding=5 align=center border=0>
+  <TR>
+    <TD align="middle"><i>3D view</i></TD>
+    <TD align="middle"><i>color image</i></TD>
+    <TD align="middle"><i>grayscale image</i></TD>
+  </TR>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin1d_128x128_01_3D.jpg" width="280" height="210"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin1d_128x128_01_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin1d_128x128_01_gray.jpg" width="128" height="128"></TD>
+  </TR>
+  <TR>
+    <TD align="middle">    <img src="help/benchmarks/sin/sin1d_128x128_03_3D.jpg" width="280" height="210"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin1d_128x128_03_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin1d_128x128_03_gray.jpg" width="128" height="128"></TD>
+  </TR>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin1d_128x128_05_3D.jpg" width="280" height="210"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin1d_128x128_05_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin1d_128x128_05_gray.jpg" width="128" height="128"></TD>
+  </TR>
+</TABLE>
+<h6><b>Fig. 6B</b> One-dimensional sine waves (sin1d)</h6><p>
+
+
+<p>
+<TABLE cellSpacing=5 cellPadding=5 align=center border=0>
+  <TR>
+    <TD align="middle"><i>3D view</i></TD>
+    <TD align="middle"><i>color image</i></TD>
+    <TD align="middle"><i>grayscale image</i></TD>
+  </TR>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/FWRsin1d_128x128_01_3D.jpg" width="280" height="210"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/FWRsin1d_128x128_01_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/FWRsin1d_128x128_01_gray.jpg" width="128" height="128"></TD>
+  </TR>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/FWRsin1d_128x128_03_3D.jpg" width="280" height="210"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/FWRsin1d_128x128_03_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/FWRsin1d_128x128_03_gray.jpg" width="128" height="128"></TD>
+  </TR>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/FWRsin1d_128x128_05_3D.jpg" width="280" height="210"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/FWRsin1d_128x128_05_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/FWRsin1d_128x128_05_gray.jpg" width="128" height="128"></TD>
+  </TR>
+</TABLE>
+
+<h6><b>Fig. 7B</b> Full wave rectified one-dimensional sine waves (FWRsin1d)</h6><p>
+
+
+<p>
+<TABLE cellSpacing=5 cellPadding=5 align=center border=0>
+  <TR>
+    <TD align="middle"><i>3D view</i></TD>
+    <TD align="middle"><i>color image</i></TD>
+    <TD align="middle"><i>grayscale image</i></TD>
+  </TR>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/HWRsin1d_128x128_01_3D.jpg" width="280" height="210"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/HWRsin1d_128x128_01_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/HWRsin1d_128x128_01_gray.jpg" width="128" height="128"></TD>
+  </TR>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/HWRsin1d_128x128_03_3D.jpg" width="280" height="210"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/HWRsin1d_128x128_03_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/HWRsin1d_128x128_03_gray.jpg" width="128" height="128"></TD>
+  </TR>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/HWRsin1d_128x128_05_3D.jpg" width="280" height="210"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/HWRsin1d_128x128_05_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/HWRsin1d_128x128_05_gray.jpg" width="128" height="128"></TD>
+  </TR>
+</TABLE>
+
+<h6><b>Fig. 8B</b> Half wave rectified one-dimensional sine waves (HWRsin1d)</h6><p>
+
+
+<p>
+<TABLE cellSpacing=5 cellPadding=5 align=center border=0>
+  <TR>
+    <TD align="middle"><i>3D view</i></TD>
+    <TD align="middle"><i>color image</i></TD>
+    <TD align="middle"><i>grayscale image</i></TD>
+  </TR>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin1d_skew_128x128_01_3D.jpg" width="280" height="210"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin1d_skew_128x128_01_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin1d_skew_128x128_01_gray.jpg" width="128" height="128"></TD>
+  </TR>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin1d_skew_128x128_03_3D.jpg" width="280" height="210"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin1d_skew_128x128_03_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin1d_skew_128x128_03_gray.jpg" width="128" height="128"></TD>
+  </TR>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin1d_skew_128x128_05_3D.jpg" width="280" height="210"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin1d_skew_128x128_05_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/sin1d_skew_128x128_05_gray.jpg" width="128" height="128"></TD>
+  </TR>
+</TABLE>
+
+<h6><b>Fig. 9B</b> One-dimensional skewed sine waves (sin1d_skew)</h6><p>
+
+
+<p>
+<TABLE cellSpacing=5 cellPadding=5 align=center border=0>
+  <TR>
+    <TD align="middle"><i>3D view</i></TD>
+    <TD align="middle"><i>color image</i></TD>
+    <TD align="middle"><i>grayscale image</i></TD>
+  </TR>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/FWRsin1d_skew_128x128_01_3D.jpg" width="280" height="210"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/FWRsin1d_skew_128x128_01_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/FWRsin1d_skew_128x128_01_gray.jpg" width="128" height="128"></TD>
+  </TR>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/FWRsin1d_skew_128x128_03_3D.jpg" width="280" height="210"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/FWRsin1d_skew_128x128_03_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/FWRsin1d_skew_128x128_03_gray.jpg" width="128" height="128"></TD>
+  </TR>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/FWRsin1d_skew_128x128_05_3D.jpg" width="280" height="210"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/FWRsin1d_skew_128x128_05_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/FWRsin1d_skew_128x128_05_gray.jpg" width="128" height="128"></TD>
+  </TR>
+</TABLE>
+
+<h6><b>Fig. 10B</b> Full wave rectified one-dimensional skewed sine waves (FWRsin1d)</h6><p>
+
+
+<p>
+<TABLE cellSpacing=5 cellPadding=5 align=center border=0>
+  <TR>
+    <TD align="middle"><i>3D view</i></TD>
+    <TD align="middle"><i>color image</i></TD>
+    <TD align="middle"><i>grayscale image</i></TD>
+  </TR>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/HWRsin1d_skew_128x128_01_3D.jpg" width="280" height="210"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/HWRsin1d_skew_128x128_01_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/HWRsin1d_skew_128x128_01_gray.jpg" width="128" height="128"></TD>
+  </TR>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/HWRsin1d_skew_128x128_03_3D.jpg" width="280" height="210"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/HWRsin1d_skew_128x128_03_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/HWRsin1d_skew_128x128_03_gray.jpg" width="128" height="128"></TD>
+  </TR>
+  <TR>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/HWRsin1d_skew_128x128_05_3D.jpg" width="280" height="210"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/HWRsin1d_skew_128x128_05_color.jpg" width="128" height="128"></TD>
+    <TD align="middle">
+    <IMG src="help/benchmarks/sin/HWRsin1d_skew_128x128_05_gray.jpg" width="128" height="128"></TD>
+  </TR>
+</TABLE>
+
+<h6><b>Fig. 11B</b> Half wave rectified one-dimensional skewed sine waves (HWRsin1d_skew)</h6><p>
+
+
+<H3>Sparse images</H3>
+
+<p>
+The benchmarks <code>edges1d</code>, <code>edges1ds</code> and <code>edges2d</code>
+consist of gray scale level "sparse" images
+representing regular edges. Please try any  HOS ICA algorithm like SANG,
+JADE or FICA to extract such images from their mixtures.
+
+<p>
+<TABLE BORDER=1 CELLSPACING=0 CELLPADDING=4 align=center>
+	<TR>
+		<TD align="center">mode</TD>
+		<TD align="center">matlab files (*.mat)</TD>
+		<TD align="center">gzipped matlab files (*.mat.gz)</TD>
+		<TD align="center">tared and gzipped tiff files (*.tgz)</TD>
+	</TR>
+	<TR>
+		<TD align="center">grayscale images</TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/edges1d.mat">edges1d.mat</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/edges1d.mat.gz">edges1d.mat.gz</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/edges1d.tgz">edges1d.tgz</a></TD>
+	</TR>
+</TABLE>
+
+<p>
+<TABLE ALIGN=center BORDER=0 CELLSPACING=4 CELLPADDING=4>
+	<TR>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges1d/edges1d_01.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges1d/edges1d_02.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges1d/edges1d_03.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges1d/edges1d_04.jpg" width="128" height="128"></TD>
+	</TR>
+	<TR>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges1d/edges1d_05.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges1d/edges1d_06.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges1d/edges1d_07.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges1d/edges1d_08.jpg" width="128" height="128"></TD>
+	</TR>
+	<TR>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges1d/edges1d_09.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges1d/edges1d_10.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges1d/edges1d_11.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges1d/edges1d_12.jpg" width="128" height="128"></TD>
+	</TR>
+
+</TABLE>
+<h6><b>Fig. 12B</b> Sparse images (edges1d)</h6><p>
+
+
+<p>
+<TABLE BORDER=1 CELLSPACING=0 CELLPADDING=4 align=center>
+	<TR>
+		<TD align="center">mode</TD>
+		<TD align="center">matlab files (*.mat)</TD>
+		<TD align="center">gzipped matlab files (*.mat.gz)</TD>
+		<TD align="center">tared and gzipped tiff files (*.tgz)</TD>
+	</TR>
+	<TR>
+		<TD align="center">grayscale images</TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/edges1ds.mat">edges1ds.mat</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/edges1ds.mat.gz">edges1ds.mat.gz</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/edges1ds.tgz">edges1ds.tgz</a></TD>
+	</TR>
+</TABLE>
+
+<p>
+<TABLE ALIGN=center BORDER=0 CELLSPACING=4 CELLPADDING=4>
+	<TR>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges1ds/edges1ds_01.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges1ds/edges1ds_02.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges1ds/edges1ds_03.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges1ds/edges1ds_04.jpg" width="128" height="128"></TD>
+	</TR>
+	<TR>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges1ds/edges1ds_05.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges1ds/edges1ds_06.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges1ds/edges1ds_07.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges1ds/edges1ds_08.jpg" width="128" height="128"></TD>
+	</TR>
+	<TR>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges1ds/edges1ds_09.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges1ds/edges1ds_10.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges1ds/edges1ds_11.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges1ds/edges1ds_12.jpg" width="128" height="128"></TD>
+	</TR>
+
+</TABLE>
+<h6><b>Fig. 13B</b> Sparse images (edges1ds)</h6><p>
+
+
+<p>
+<TABLE BORDER=1 CELLSPACING=0 CELLPADDING=4 align=center>
+	<TR>
+		<TD align="center">mode</TD>
+		<TD align="center">matlab files (*.mat)</TD>
+		<TD align="center">gzipped matlab files (*.mat.gz)</TD>
+		<TD align="center">tared and gzipped tiff files (*.tgz)</TD>
+	</TR>
+	<TR>
+		<TD align="center">grayscale images</TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/edges2d.mat">edges2d.mat</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/edges2d.mat.gz">edges2d.mat.gz</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/edges2d.tgz">edges2d.tgz</a></TD>
+	</TR>
+</TABLE>
+
+<p>
+<TABLE ALIGN=center BORDER=0 CELLSPACING=4 CELLPADDING=4>
+	<TR>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges2d/edges2d_01.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges2d/edges2d_02.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges2d/edges2d_03.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges2d/edges2d_04.jpg" width="128" height="128"></TD>
+	</TR>
+	<TR>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges2d/edges2d_05.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges2d/edges2d_06.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges2d/edges2d_07.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges2d/edges2d_08.jpg" width="128" height="128"></TD>
+	</TR>
+	<TR>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges2d/edges2d_09.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges2d/edges2d_10.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges2d/edges2d_11.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/edges2d/edges2d_12.jpg" width="128" height="128"></TD>
+	</TR>
+
+</TABLE>
+<h6><b>Fig. 14B</b> Sparse images (edges1d)</h6><p>
+
+<H3>Natural images</H3>
+
+<p>
+This benchmark consists of 10 natural images (e.g.
+faces, animals, objects) and two synthetically created noise images.
+
+<p>
+<TABLE BORDER=1 CELLSPACING=0 CELLPADDING=4 align=center>
+	<TR>
+		<TD align="center">mode</TD>
+		<TD align="center">matlab files (*.mat)</TD>
+		<TD align="center">gzipped matlab files (*.mat.gz)</TD>
+		<TD align="center">tared and gzipped tiff files (*.tgz)</TD>
+	</TR>
+	<TR>
+		<TD align="center">color images</TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/natural_images_128x128_color.mat">natural_images_128x128_color.mat</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/natural_images_128x128_color.mat.gz">natural_images_128x128_color.mat.gz</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/natural_images_128x128_color.tgz">natural_images_128x128_color.tgz</a></TD>
+	</TR>
+	<TR>
+		<TD align="center">grayscale images</TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/natural_images_128x128_gray.mat">natural_images_128x128_gray.mat</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/natural_images_128x128_gray.mat.gz">natural_images_128x128_gray.mat.gz</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/natural_images_128x128_gray.tgz">natural_images_gray_128x128.tgz</a></TD>
+	</TR>
+</TABLE>
+
+
+<p>
+<TABLE ALIGN=center BORDER=0 CELLSPACING=4 CELLPADDING=4>
+	<TR>
+		<TD align="middle">
+        <IMG src="help/benchmarks/natural_img/airplane_128x128_color.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/natural_img/baboon_128x128_color.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/natural_img/cat_color_128x128.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/natural_img/fruits_128x128_color.jpg" width="128" height="128"></TD>
+	</TR>
+	<TR>
+		<TD align="middle">
+        <IMG src="help/benchmarks/natural_img/lenna_color_128x128.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/natural_img/peppers_128x128_color.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/natural_img/pool_color_128x128.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/natural_img/smallgirl_128x128_color.jpg" width="128" height="128"></TD>
+	</TR>
+	<TR>
+		<TD align="middle">
+        <IMG src="help/benchmarks/natural_img/watch_color_128x128.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/natural_img/water_128x128_color.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/natural_img/noise_color_gaussian.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/natural_img/noise_gray_pepper.jpg" width="128" height="128"></TD>
+	</TR>
+</TABLE>
+<h6><b>Fig. 15B</b> Natural images</h6><p>
+
+
+<H3>Textures</H3>
+
+<p>
+This benchmark consists of 16 typical textures.
+
+<p>
+<TABLE BORDER=1 CELLSPACING=0 CELLPADDING=4 align=center>
+	<TR>
+		<TD align="center">mode</TD>
+		<TD align="center">matlab files (*.mat)</TD>
+		<TD align="center">gzipped matlab files (*.mat.gz)</TD>
+		<TD align="center">tared and gzipped tiff files (*.tgz)</TD>
+	</TR>
+	<TR>
+		<TD align="center">color images</TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/textures_128x128_color.mat">textures_128x128_color.mat</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/textures_128x128_color.mat.gz">textures_128x128_color.mat.gz</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/textures_128x128_color.tgz">textures_128x128_color.tgz</a></TD>
+	</TR>
+	<TR>
+		<TD align="center">grayscale images</TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/textures_128x128_gray.mat">textures_128x128_gray.mat</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/textures_128x128_gray.mat.gz">textures_128x128_gray.mat.gz</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/textures_128x128_gray.tgz">textures_gray_128x128.tgz</a></TD>
+	</TR>
+</TABLE>
+
+
+<p>
+<TABLE ALIGN=center BORDER=0 CELLSPACING=4 CELLPADDING=4>
+	<TR>
+		<TD align="middle">
+        <IMG src="help/benchmarks/textures/text01_color_128x128.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/textures/text02_color_128x128.jpg" width="128" height="128"></TD>
+		<TD align="middle">        <img src="help/benchmarks/textures/text03_color_128x128.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/textures/text04_color_128x128.jpg" width="128" height="128"></TD>
+	</TR>
+	<TR>
+		<TD align="middle">
+        <IMG src="help/benchmarks/textures/text05_color_128x128.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/textures/text06_color_128x128.jpg" width="128" height="128"></TD>
+		<TD align="middle">        <img src="help/benchmarks/textures/text07_color_128x128.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/textures/text08_color_128x128.jpg" width="128" height="128"></TD>
+	</TR>
+	<TR>
+		<TD align="middle">
+        <IMG src="help/benchmarks/textures/text09_color_128x128.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/textures/text10_color_128x128.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/textures/text11_color_128x128.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/textures/text12_color_128x128.jpg" width="128" height="128"></TD>
+	</TR>
+	<TR>
+		<TD align="middle">
+        <IMG src="help/benchmarks/textures/text13_color_128x128.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/textures/text14_color_128x128.jpg" width="128" height="128"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/textures/text15_color_128x128.jpg" width="128" height="128"></TD>
+		<TD align="middle">        <img src="help/benchmarks/textures/text16_color_128x128.jpg" width="128" height="128"></TD>
+	</TR>
+</TABLE>
+<h6><b>Fig. 16B</b> Textures</h6><p>
+
+
+<H3>Human faces</H3>
+
+<H4>Color human faces</h4>
+
+<p>
+This benchmark consists of 9 human faces selected from
+face databases of <a href="http://pics.psych.stir.ac.uk">Psychology Department of University of Stirling</a>
+
+<p>
+<TABLE BORDER=1 CELLSPACING=0 CELLPADDING=4 align=center>
+	<TR>
+		<TD align="center">mode</TD>
+		<TD align="center">matlab files (*.mat)</TD>
+		<TD align="center">gzipped matlab files (*.mat.gz)</TD>
+		<TD align="center">tared and gzipped tiff files (*.tgz)</TD>
+	</TR>
+	<TR>
+		<TD align="center">grayscale images</TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/faces_color.mat">faces_color.mat</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/faces_color.mat.gz">faces_color.mat.gz</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/faces_color.tgz">faces_color.tgz</a></TD>
+	</TR>
+</TABLE>
+
+<p>
+<TABLE ALIGN=center BORDER=0 CELLSPACING=4 CELLPADDING=4>
+	<TR>
+		<TD align="middle">
+        <IMG src="help/benchmarks/faces/face_color_small_01.jpg" width="128" height="183"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/faces/face_color_small_02.jpg" width="128" height="183"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/faces/face_color_small_03.jpg" width="128" height="183"></TD>
+	</TR>
+	<TR>
+		<TD align="middle">        <img src="help/benchmarks/faces/face_color_small_04.jpg" width="128" height="183"></TD>
+		<TD align="middle">        <img src="help/benchmarks/faces/face_color_small_05.jpg" width="128" height="183"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/faces/face_color_small_06.jpg" width="128" height="183"></TD>
+	</TR>
+	<TR>
+		<TD align="middle">
+        <IMG src="help/benchmarks/faces/face_color_small_07.jpg" width="128" height="183"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/faces/face_color_small_08.jpg" width="128" height="183"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/faces/face_color_small_09.jpg" width="128" height="183"></TD>
+	</TR>
+</TABLE>
+<h6><b>Fig. 17B</b> Human faces</h6><p>
+
+<H4>Grayscale human faces</h4>
+
+<p>
+This benchmark consists of 6 human faces selected from
+face databases of <a href="http://pics.psych.stir.ac.uk">Psychology Department of University of Stirling</a>
+
+<p>
+<TABLE BORDER=1 CELLSPACING=0 CELLPADDING=4 align=center>
+	<TR>
+		<TD align="center">mode</TD>
+		<TD align="center">matlab files (*.mat)</TD>
+		<TD align="center">gzipped matlab files (*.mat.gz)</TD>
+		<TD align="center">tared and gzipped tiff files (*.tgz)</TD>
+	</TR>
+	<TR>
+		<TD align="center">grayscale images</TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/faces.mat">faces.mat</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/faces.mat.gz">faces.mat.gz</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/faces.tgz">faces.tgz</a></TD>
+	</TR>
+</TABLE>
+
+
+<p>
+<TABLE ALIGN=center BORDER=0 CELLSPACING=4 CELLPADDING=4>
+	<TR>
+		<TD align="middle">
+        <IMG src="help/benchmarks/faces/face_small_01.jpg" width="128" height="164"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/faces/face_small_02.jpg" width="128" height="163"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/faces/face_small_03.jpg" width="128" height="164"></TD>
+	</TR>
+	<TR>
+		<TD align="middle">
+        <IMG src="help/benchmarks/faces/face_small_04.jpg" width="128" height="164"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/faces/face_small_05.jpg" width="128" height="163"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/faces/face_small_06.jpg" width="128" height="164"></TD>
+	</TR>
+</TABLE>
+<h6><b>Fig. 18B</b> Human faces</h6><p>
+
+
+<H3>MRI images</H3>
+
+<p>
+These benchmarks consist each of 10 typical MRI images
+selected from databases of
+<a href="http://www.mritutor.org/mriteach/index.html">The MRI Tutor Web Site</a> and
+<a href="http://www.med.harvard.edu/AANLIB/home.html">The Whole Brain Atlas</a>
+<p>
+<TABLE BORDER=1 CELLSPACING=0 CELLPADDING=4 align=center>
+	<TR>
+		<TD align="center">mode</TD>
+		<TD align="center">matlab files (*.mat)</TD>
+		<TD align="center">gzipped matlab files (*.mat.gz)</TD>
+		<TD align="center">tared and gzipped tiff files (*.tgz)</TD>
+	</TR>
+	<TR>
+		<TD align="center">color images</TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/MRI_color.mat">MRI_color.mat</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/MRI_color.mat.gz">MRI_color.mat.gz</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/MRI_color.tgz">MRI_color.tgz</a></TD>
+	</TR>
+	<TR>
+		<TD align="center">grayscale images</TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/MRI_gray.mat">MRI_gray.mat</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/MRI_gray.mat.gz">MRI_gray.mat.gz</a></TD>
+		<TD><A href="http://www.bsp.brain.riken.jp/ICALAB/ICALABImageProc/benchmarks/data/MRI_gray.tgz">MRI_gray.tgz</a></TD>
+	</TR>
+</TABLE>
+
+
+<p>
+<TABLE ALIGN=center BORDER=0 CELLSPACING=4 CELLPADDING=4>
+	<TR>
+		<TD align="middle">
+        <IMG src="help/benchmarks/MRI/MRI_color_small_01.jpg" width="128" height="158"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/MRI/MRI_color_small_02.jpg" width="128" height="158"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/MRI/MRI_color_small_03.jpg" width="128" height="158"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/MRI/MRI_color_small_04.jpg" width="128" height="158"></TD>
+      <TD align="middle">
+      <IMG src="help/benchmarks/MRI/MRI_color_small_05.jpg" width="128" height="158"></TD>
+	</TR>
+	<TR>
+		<TD align="middle">
+        <IMG src="help/benchmarks/MRI/MRI_color_small_06.jpg" width="128" height="158"></TD>
+		<TD align="middle">        <img src="help/benchmarks/MRI/MRI_color_small_07.jpg" width="128" height="158"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/MRI/MRI_color_small_08.jpg" width="128" height="158"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/MRI/MRI_color_small_09.jpg" width="128" height="158"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/MRI/MRI_color_small_10.jpg" width="128" height="158"></TD>
+   </TR>
+</TABLE>
+
+<h6><b>Fig. 19B</b> Color MRI images</h6><p>
+
+
+<p>
+<TABLE ALIGN=center BORDER=0 CELLSPACING=4 CELLPADDING=4>
+	<TR>
+		<TD align="middle">
+        <IMG src="help/benchmarks/MRI/MRI_gray_small_01.jpg" width="128" height="111"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/MRI/MRI_gray_small_02.jpg" width="128" height="111"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/MRI/MRI_gray_small_03.jpg" width="128" height="111"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/MRI/MRI_gray_small_04.jpg" width="128" height="111"></TD>
+      <TD align="middle">
+      <IMG src="help/benchmarks/MRI/MRI_gray_small_05.jpg" width="128" height="111"></TD>
+	</TR>
+	<TR>
+		<TD align="middle">
+        <IMG src="help/benchmarks/MRI/MRI_gray_small_06.jpg" width="128" height="111"></TD>
+		<TD align="middle">        <img src="help/benchmarks/MRI/MRI_gray_small_07.jpg" width="128" height="111"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/MRI/MRI_gray_small_08.jpg" width="128" height="111"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/MRI/MRI_gray_small_09.jpg" width="128" height="111"></TD>
+		<TD align="middle">
+        <IMG src="help/benchmarks/MRI/MRI_gray_small_10.jpg" width="128" height="111"></TD>
+   </TR>
+</TABLE>
+
+<h6><b>Fig. 20B</b> Grayscale MRI images</h6><p>
+
+<p>
+<hr>
+
+</BODY>
+</HTML>
